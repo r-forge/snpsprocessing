@@ -1,0 +1,35 @@
+Package: ACNE
+=============
+
+Version: 0.1.0 [2009-11-03]
+o Moved the package to the r-forge.r-project.org repository.
+o Renamed package to ACNE (from aroma.affymetrix.nmf)
+
+
+Version: 0.0.5 [2009-03-25]
+o Added example code with example data for fitSnpNmfArray().
+o Added fitSnpNmfArray(), which takes an Kx2xI array.
+  fitSnpNmfArray() returns a list object of class SnpNmfFit
+  for which there is a plot() function.
+  Note, fitSnpNmf() takes a 2KxI matrix.
+o Added snpMatrixToArray() and snpArrayToMatrix().
+
+
+Version: 0.0.4 [2009-03-24]
+o Added sanity checks of all input and output to functions.
+o Added Rdoc comments (Rd help pages).
+o Removed obsolete dependency on the 'impute' package.
+o Cleaned up code.
+
+
+Version: 0.0.3 [2009-02-02]
+
+
+Version: 0.0.2 [2009-01-28]
+o CLEAN UP: Removed old MyProbeLevelModel class.
+o NmfPlm now inherits from ProbeLevelModel.
+o Created temporary package.
+
+
+Version: 0.0.1 [2008-xx-xx]
+o Created.
