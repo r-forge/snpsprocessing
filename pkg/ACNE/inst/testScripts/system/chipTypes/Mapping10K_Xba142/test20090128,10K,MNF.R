@@ -6,7 +6,7 @@
 # URL: http://www.ncbi.nlm.nih.gov/projects/geo/query/acc.cgi?acc=GSE8605
 ##########################################################################
 library("aroma.affymetrix");
-library("aroma.affymetrix.nmf");
+library("ACNE");
 log <- Arguments$getVerbose(-8, timestamp=TRUE);
 
 cdf <- AffymetrixCdfFile$byChipType("Mapping10K_Xba142");
@@ -57,7 +57,7 @@ if (!devIsOpen(fig)) {
     data[,"total"] <- 2*data[,"total"] / thetaR;  
   
   
-    cn <- RawCopyNumbers(data[,"total"], pos, chromsome=chr);
+    cn <- RawCopyNumbers(data[,"total"], pos, chromosome=chr);
     plot(cn, col="gray", cex=0.8, ylim=c(0,4));
     cnS <- gaussianSmoothing(cn, xOut=seq(xMin(cn), xMax(cn), by=1/2), sd=1);
     points(cnS, col="black");
@@ -67,7 +67,7 @@ if (!devIsOpen(fig)) {
     plot(pos, data[,"freqB"], cex=3, ylim=c(0,1));
     box(col="blue");
     stext(side=3, pos=0, getTags(cesN, collapse=","));
-  }
+  } # for (chr ...)
 
   devDone();
 }

@@ -1,5 +1,5 @@
 library("aroma.affymetrix");
-library("aroma.affymetrix.nmf");
+library("ACNE");
 log <- verbose <- Arguments$getVerbose(-8, timestamp=TRUE);
 
 dataSetName <- "Affymetrix_2006-TumorNormal";

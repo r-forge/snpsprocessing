@@ -1,6 +1,6 @@
 if (interactive()) savehistory();
 library("aroma.affymetrix");
-library("aroma.affymetrix.nmf");
+library("ACNE");
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # setup dataset and chip names

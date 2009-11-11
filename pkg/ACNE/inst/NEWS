@@ -1,6 +1,11 @@
 Package: ACNE
 =============
 
+Version: 0.1.1 [2009-11-11x]
+o BUG FIX: One of the testScripts/ had a type.
+o CLEAN UP: Removed an obsolete testScripts/.
+
+
 Version: 0.1.0 [2009-11-03]
 o Moved the package to the r-forge.r-project.org repository.
 o Renamed package to ACNE (from aroma.affymetrix.nmf)
