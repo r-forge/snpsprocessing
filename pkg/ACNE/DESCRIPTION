@@ -1,6 +1,6 @@
 Package: ACNE
-Version: 0.1.1
-Date: 2009-11-11
+Version: 0.1.2
+Date: 2009-11-18
 Title: Affymetrix SNP probe-summarization using non-negative matrix factorization
 Author: Angel Rubio <arubio@ceit.es>, Maria Ortiz <mortiz@ceit.es>, Henrik Bengtsson <henrikb@braju.com>
 Maintainer: Henrik Bengtsson <henrikb@braju.com>

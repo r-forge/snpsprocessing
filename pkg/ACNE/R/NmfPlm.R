@@ -149,7 +149,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   fitUnits <- function(y, prevpaf=NULL,...){
     SNPunit <- y;
-    save(SNPunit, file = "SNPunit")
+    #save(SNPunit, file = "SNPunit")
     groupNames <- names(SNPunit);
 
     if (length(SNPunit) > 1) {

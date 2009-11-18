@@ -1,7 +1,13 @@
 Package: ACNE
 =============
 
-Version: 0.1.1 [2009-11-11x]
+Version: 0.1.2 [2009-11-18]
+o CLEAN UP: For debug purposes, the NMF fit function used to
+  save the probe signals for each SNP fitted.  This is now
+  removed, and should speed up the processing substantially.
+
+
+Version: 0.1.1 [2009-11-11]
 o BUG FIX: One of the testScripts/ had a type.
 o CLEAN UP: Removed an obsolete testScripts/.
 
