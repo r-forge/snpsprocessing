@@ -216,6 +216,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
 ############################################################################
 # HISTORY:
+# 2009-11-18 [MO]
+# o Removed internal save() in getFitUnitFunction() of NmfPlm.
 # 2009-03-24 [HB]
 # o Added Rdoc comments.
 # 2009-01-28 [HB]

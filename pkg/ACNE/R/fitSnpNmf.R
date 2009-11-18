@@ -57,7 +57,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10) {
 
   
   # Estimate the initial values of Affinities and Naive Genotyping calls
-  save(V, file = "V")
+  # save(V, file = "V")
   WHinit <- WHInit(V);
   status <- WHinit$status;
 
@@ -140,6 +140,8 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10) {
 
 ############################################################################
 # HISTORY:
+# 2009-11-18 [HB]
+# o Removed internal save() in fitSnpNmf().
 # 2009-03-24 [HB]
 # o Renamed from Nmf() to fitSnpNmf().  The former name was to generic 
 #   while our algorithm is rather specific to SNP data.
