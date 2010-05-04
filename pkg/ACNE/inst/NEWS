@@ -1,6 +1,11 @@
 Package: ACNE
 =============
 
+Version: 0.2.0 [2010-05-04]
+o Bumped up the version of the package dependencies.
+o Set the license to LGPL v2.1 or newer.
+
+
 Version: 0.1.2 [2009-11-18]
 o SPEED UP/CLEAN UP: For debug purposes, the internal NmfPlm
   fit function as well as fitSnpNmf() used to save the input

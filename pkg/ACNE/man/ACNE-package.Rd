@@ -26,11 +26,12 @@
  }
 
  \section{Installation and updates}{
-   TBA.
+   To install this package, see instructions at
+   \url{http://r-forge.r-project.org/projects/snpsprocessing/}.
  }
 
  \section{To get started}{
-   TBA.
+   See the \code{\link{NmfPlm}} class.
  }
 
  \author{
@@ -40,7 +41,7 @@
  }
 
  \section{License}{
-   TBA.
+   LGPL (>= 2.1)
  }
 
  \references{
