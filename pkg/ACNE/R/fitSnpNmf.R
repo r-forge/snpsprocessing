@@ -12,12 +12,12 @@
 # \arguments{
 #  \item{V}{An KxI @matrix where I is the number of arrays and K is the 
 #     number of probe where K should be even (K=2L).}
+#  \item{acc}{A positive @double specifying the converence threshold. For
+#     more details on convergence, see below.}
 #  \item{maxIter}{A positive @integer specifying the maximum number of
 #     iterations used to calculate the decomposition.}
 #  \item{maxIterRlm}{A positive @integer specifying the maximum number of
 #     iterations used in rlm.}
-#  \item{acc}{A positive @double specifying the converence threshold. For
-#     more details on convergence, see below.}
 # }
 #
 # \value{

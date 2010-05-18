@@ -31,7 +31,7 @@
 #
 # @author
 #*/########################################################################### 
-setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm = 20, flavor=c("v4", "v3", "v2", "v1")) {
+setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, flavor=c("v4", "v3", "v2", "v1")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -132,10 +132,10 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     maxIter <- 10;
   }
 
-  # Maximum number of iterations to fit rlm.
+  # Maximum number of iterations to fit rlm().
   maxIterRlm <- this$.maxIterRlm;
   if (is.null(maxIterRlm)) {
-    maxIterRlm <- 10;
+    maxIterRlm <- 20;
   }
 
 
@@ -178,7 +178,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     }
 
     if (nbrGroups == 2) {
-      NMFdata <- nmfFcn(SNPdata, maxIter, maxIterRlm);
+      NMFdata <- nmfFcn(SNPdata, maxIter=maxIter, maxIterRlm=maxIterRlm);
 
       W <- NMFdata[[1]];
       H <- NMFdata[[2]];
