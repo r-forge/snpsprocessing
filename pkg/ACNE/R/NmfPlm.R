@@ -48,14 +48,16 @@ setConstructorS3("NmfPlm", function(..., maxIter=10, flavor=c("v4", "v3", "v2", 
 
 
 
-setMethodS3("getAsteriskTags", "NmfPlm", function(this, collapse=NULL,...) {
+setMethodS3("getAsteriskTags", "NmfPlm", function(this, collapse=NULL, ...) {
   # Returns 'PLM[,<shift>]'
   
   tags <- NextMethod("getAsteriskTags", this, collapse=NULL);
   tags[1] <- "NMF";
 
   flavor <- this$.flavor;
-  tags <- c(tags, flavor);
+  if (!is.null(flavor) && flavor != "v4") {
+    tags <- c(tags, flavor);
+  }
 
   # Collapse
   tags <- paste(tags, collapse=collapse); 
@@ -115,7 +117,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
   # Algorithm version
   flavor <- this$.flavor;
   if (is.null(flavor)) {
-    flavor <- "v3";
+    flavor <- "v4";
   }
 
   # Maximum number of iterations to fit.
@@ -216,6 +218,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
 ############################################################################
 # HISTORY:
+# 2010-05-17 [HB]
+# o Now a flavor tag is added to NmfPlm:s only if flavor != "v4" (default).
 # 2009-11-18 [MO]
 # o Removed internal save() in getFitUnitFunction() of NmfPlm.
 # 2009-03-24 [HB]

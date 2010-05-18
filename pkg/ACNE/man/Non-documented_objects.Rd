@@ -22,6 +22,9 @@
 \alias{getProbeAffinityFile.NmfPlm}
 \alias{plotFreqB}
 \alias{miqr.solve}
+\alias{doACNE}
+\alias{doACNE.AffymetrixCelSet}
+\alias{doACNE.character}
 
 \description{
   This page contains aliases for all "non-documented" objects that

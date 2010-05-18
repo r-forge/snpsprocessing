@@ -6,3 +6,4 @@ getAsteriskTags.NmfPlm getAsteriskTags.NmfSnpPlm
 getFitUnitFunction.NmfPlm getProbeAffinityFile.NmfPlm
 plotFreqB
 miqr.solve
+doACNE doACNE.AffymetrixCelSet doACNE.character

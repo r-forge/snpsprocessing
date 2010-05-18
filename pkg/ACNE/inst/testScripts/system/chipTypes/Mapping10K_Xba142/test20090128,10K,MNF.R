@@ -19,7 +19,7 @@ print(si);
 csR <- AffymetrixCelSet$byName("GSE8605", cdf=cdf);
 print(csR);
 
-acc <- AllelicCrosstalkCalibration(csR, model="CRMAv2", tags="*,v2");
+acc <- AllelicCrosstalkCalibration(csR, model="CRMAv2");
 print(acc);
 csC <- process(acc, verbose=log);
 print(csC);
@@ -29,7 +29,7 @@ print(bpn);
 csN <- process(bpn, verbose=log);
 print(csN);
 
-plm <- NmfSnpPlm(csN, mergeStrands=TRUE, tags="*,v5");
+plm <- NmfSnpPlm(csN, mergeStrands=TRUE);
 print(plm);
 fit(plm, ram=0.05, verbose=log);
 
