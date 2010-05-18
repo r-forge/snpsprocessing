@@ -14,6 +14,8 @@
 # \arguments{
 #   \item{...}{Arguments passed to @see "aroma.affymetrix::ProbeLevelModel".}
 #   \item{maxIter}{The maximum number of iteration in the NMF step.}
+#  \item{maxIterRlm}{A positive @integer specifying the maximum number of
+#     iterations used in rlm.}
 #   \item{flavor}{(Internal/developmental only)
 #      A @character string specifying which algorithm to use.}
 # }
@@ -29,12 +31,15 @@
 #
 # @author
 #*/########################################################################### 
-setConstructorS3("NmfPlm", function(..., maxIter=10, flavor=c("v4", "v3", "v2", "v1")) {
+setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm = 20, flavor=c("v4", "v3", "v2", "v1")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Argument 'maxIter':
   maxIter <- Arguments$getInteger(maxIter, range=c(1,999));
+
+  # Argument 'maxIterRlm':
+  maxIterRlm <- Arguments$getInteger(maxIterRlm, range=c(1,999));
 
   # Argument 'flavor':
   flavor <- match.arg(flavor);
@@ -42,6 +47,7 @@ setConstructorS3("NmfPlm", function(..., maxIter=10, flavor=c("v4", "v3", "v2", 
 
   extend(ProbeLevelModel(...), "NmfPlm",
     .maxIter = maxIter,
+    .maxIterRlm = maxIterRlm,    
     .flavor = flavor
   )
 })
@@ -126,6 +132,12 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     maxIter <- 10;
   }
 
+  # Maximum number of iterations to fit rlm.
+  maxIterRlm <- this$.maxIterRlm;
+  if (is.null(maxIterRlm)) {
+    maxIterRlm <- 10;
+  }
+
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Select the 'NMF' function to use
@@ -166,7 +178,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     }
 
     if (nbrGroups == 2) {
-      NMFdata <- nmfFcn(SNPdata, maxIter);
+      NMFdata <- nmfFcn(SNPdata, maxIter, maxIterRlm);
 
       W <- NMFdata[[1]];
       H <- NMFdata[[2]];
@@ -218,6 +230,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
 ############################################################################
 # HISTORY:
+# 2010-05-18 [HB]
+# o Added maxIterRlm as argument.
 # 2010-05-17 [HB]
 # o Now a flavor tag is added to NmfPlm:s only if flavor != "v4" (default).
 # 2009-11-18 [MO]

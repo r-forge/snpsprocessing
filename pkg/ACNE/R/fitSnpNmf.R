@@ -14,6 +14,8 @@
 #     number of probe where K should be even (K=2L).}
 #  \item{maxIter}{A positive @integer specifying the maximum number of
 #     iterations used to calculate the decomposition.}
+#  \item{maxIterRlm}{A positive @integer specifying the maximum number of
+#     iterations used in rlm.}
 #  \item{acc}{A positive @double specifying the converence threshold. For
 #     more details on convergence, see below.}
 # }
@@ -41,7 +43,7 @@
 #
 # @keyword internal
 #*/###########################################################################
-fitSnpNmf <- function(V, acc=0.02, maxIter=10) {
+fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20) {
   I <- ncol(V);
   K <- nrow(V);
 
@@ -120,7 +122,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10) {
 
     # Robust method for shrinking the average total copy number
     # to close to CN=2.
-    Dmat <- rlm(t(H), matrix(data=2, nrow=ncol(H), ncol=1));
+    Dmat <- rlm(t(H), matrix(data=2, nrow=ncol(H), ncol=1), maxit=maxIterRlm);
     coefs <- Dmat$coefficients;
     H <- diag(coefs) %*% H;
     W <- W %*% diag(1/coefs);
@@ -140,6 +142,8 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10) {
 
 ############################################################################
 # HISTORY:
+# 2010-5-18 [MO]
+# o Added maxIterRlm as argument.
 # 2009-11-18 [HB]
 # o Removed internal save() in fitSnpNmf().
 # 2009-03-24 [HB]
