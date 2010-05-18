@@ -31,7 +31,7 @@
 #
 # @author
 #*/########################################################################### 
-setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, flavor=c("v4", "v3", "v2", "v1")) {
+setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, flavor=c("v4")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,18 +142,21 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Select the 'NMF' function to use
   # (When adding a new version, add it here; not below)
+  # As of 2010-05-18 it is only flavor "v4" that is supported.
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   nmfFcn <- NULL;
-  if (flavor == "v1") {
-    nmfFcn <- get("NmfPinv", mode="function");
-  } else if (flavor == "v2") {
-    nmfFcn <- get("NmfFast", mode="function");
-  } else if (flavor == "v3") {
-    nmfFcn <- get("NmfPinvBeta", mode="function");
-  } else if (flavor == "v4") {
+  if (flavor == "v4") {
     nmfFcn <- get("fitSnpNmf", mode="function");
   } else {
-    throw("Unknown flavor: ", flavor);
+    if (flavor == "v1") {
+      nmfFcn <- get("NmfPinv", mode="function");
+    } else if (flavor == "v2") {
+      nmfFcn <- get("NmfFast", mode="function");
+    } else if (flavor == "v3") {
+      nmfFcn <- get("NmfPinvBeta", mode="function");
+    } else {
+      throw("Unknown flavor: ", flavor);
+    }
   }
 
 
@@ -230,6 +233,14 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
 ############################################################################
 # HISTORY:
+# 2010-05-18 [HB]
+# o BUG FIX: The NmfSnp class would use a way to large threshold
+#   for deciding when the NMF algorithm has converged.  The
+#   default accuracy 0.02 was replaced with 10.0 due to a "stray"
+#   argument in an internal function call in getFitUnitFunction().
+#   This bug has been there since March 24, 2009.
+# o CLEAN UP: All flavors of NMF algorithms but the default one ("v4")
+#   is deprecated and no longer available.
 # 2010-05-18 [HB]
 # o Added maxIterRlm as argument.
 # 2010-05-17 [HB]

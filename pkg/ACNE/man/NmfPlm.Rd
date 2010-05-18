@@ -40,11 +40,13 @@ extends \link[aroma.affymetrix]{ProbeLevelModel}\cr
   This class represents the NMF model of [REF].
  }
 
- \usage{NmfPlm(..., maxIter=10, flavor=c("v4", "v3", "v2", "v1"))}
+ \usage{NmfPlm(..., maxIter=10, maxIterRlm=20, flavor=c("v4"))}
 
  \arguments{
    \item{...}{Arguments passed to \code{\link[aroma.affymetrix]{ProbeLevelModel}}.}
    \item{maxIter}{The maximum number of iteration in the NMF step.}
+  \item{maxIterRlm}{A positive \code{\link[base]{integer}} specifying the maximum number of
+     iterations used in rlm.}
    \item{flavor}{(Internal/developmental only)
       A \code{\link[base]{character}} string specifying which algorithm to use.}
  }

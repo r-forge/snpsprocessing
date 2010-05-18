@@ -16,15 +16,17 @@
   Non-negative matrix factorization (NMF) of a matrix containing SNP probe signals.
  }
 
- \usage{fitSnpNmf(V, acc=0.02, maxIter=10)}
+ \usage{fitSnpNmf(V, acc=0.02, maxIter=10, maxIterRlm=20)}
 
  \arguments{
   \item{V}{An KxI \code{\link[base]{matrix}} where I is the number of arrays and K is the
      number of probe where K should be even (K=2L).}
-  \item{maxIter}{A positive \code{\link[base]{integer}} specifying the maximum number of
-     iterations used to calculate the decomposition.}
   \item{acc}{A positive \code{\link[base]{double}} specifying the converence threshold. For
      more details on convergence, see below.}
+  \item{maxIter}{A positive \code{\link[base]{integer}} specifying the maximum number of
+     iterations used to calculate the decomposition.}
+  \item{maxIterRlm}{A positive \code{\link[base]{integer}} specifying the maximum number of
+     iterations used in rlm.}
  }
 
  \value{
