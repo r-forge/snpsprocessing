@@ -1,6 +1,10 @@
 Package: ACNE
 =============
 
+Version: 0.4.1 [2010-06-21]
+o Added more biocViews to the DESCRIPTION file.
+
+
 Version: 0.4.0 [2010-05-18]
 o BUG FIX: The NmfSnp class would use a way to large threshold
   for deciding when the NMF algorithm has converged.  The
