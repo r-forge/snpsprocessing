@@ -43,7 +43,7 @@
 #
 # @keyword internal
 #*/###########################################################################
-fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20) {
+fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
   I <- ncol(V);
   K <- nrow(V);
 
@@ -54,12 +54,18 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20) {
   eps2 <- 1e-9;
 
   # Truncate negative values to a small positive value
-  # Should all these truncations be V[V < eps] <- eps?!? /HB 2009-03-24
-  V[V < 0] <- eps;
+  V[V < eps] <- eps;
 
-  
+  # Reference sample vector
+  if(refs == 0){
+    refs <- matrix(TRUE, nrow=1, ncol=I); 
+  }else{
+    if(!is.vector(refs) || (is.logical(refs)&&length(refs)!=I) || (length(refs)>I)){
+      throw("Argument 'refs' is not well define.");
+    }
+  }
+
   # Estimate the initial values of Affinities and Naive Genotyping calls
-  # save(V, file = "V")
   WHinit <- WHInit(V);
   status <- WHinit$status;
 
@@ -142,6 +148,8 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20) {
 
 ############################################################################
 # HISTORY:
+# 2010-06-04 [MO]
+# o Added refs as argument.
 # 2010-5-18 [MO]
 # o Added maxIterRlm as argument.
 # 2009-11-18 [HB]

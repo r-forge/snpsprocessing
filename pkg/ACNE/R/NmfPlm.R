@@ -31,7 +31,7 @@
 #
 # @author
 #*/########################################################################### 
-setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm = 20, flavor=c("v4", "v3", "v2", "v1")) {
+setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm = 20, refs = 0, flavor=c("v4", "v3", "v2", "v1")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,6 +48,7 @@ setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm = 20, flavor=c("
   extend(ProbeLevelModel(...), "NmfPlm",
     .maxIter = maxIter,
     .maxIterRlm = maxIterRlm,    
+    .refs = refs,
     .flavor = flavor
   )
 })
@@ -135,7 +136,13 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
   # Maximum number of iterations to fit rlm.
   maxIterRlm <- this$.maxIterRlm;
   if (is.null(maxIterRlm)) {
-    maxIterRlm <- 10;
+    maxIterRlm <- 20;
+  }
+
+  # Control samples.
+  refs <- this$.refs;
+  if (is.null(refs)) {
+    refs <- 0;
   }
 
 
@@ -178,7 +185,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     }
 
     if (nbrGroups == 2) {
-      NMFdata <- nmfFcn(SNPdata, maxIter=maxIter, maxIterRlm=maxIterRlm);
+      NMFdata <- nmfFcn(SNPdata, maxIter=maxIter, maxIterRlm=maxIterRlm, refs=refs);
 
       W <- NMFdata[[1]];
       H <- NMFdata[[2]];
@@ -230,6 +237,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
 ############################################################################
 # HISTORY:
+# 2010-06-04 [MO]
+# o Added refs as argument.
 # 2010-05-18 [MO]
 # o Added maxIterRlm as argument.
 # 2010-05-17 [HB]
