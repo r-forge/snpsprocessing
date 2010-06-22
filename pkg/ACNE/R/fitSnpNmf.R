@@ -18,6 +18,7 @@
 #     iterations used to calculate the decomposition.}
 #  \item{maxIterRlm}{A positive @integer specifying the maximum number of
 #     iterations used in rlm.}
+#  \item{refs}{An index vector (numeric or logical) specifying the normal samples.}
 # }
 #
 # \value{
@@ -49,7 +50,6 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
 
   # A small positive value
   eps <- 1e-5;
-
   # Another small positive value
   eps2 <- 1e-9;
 
@@ -57,22 +57,21 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
   V[V < eps] <- eps;
 
   # Reference sample vector
-  if(refs == 0){
+  if(length(refs) == 1 & refs == 0){
     refs <- matrix(TRUE, nrow=1, ncol=I); 
   }else{
     if(!is.vector(refs) || (is.logical(refs)&&length(refs)!=I) || (length(refs)>I)){
       throw("Argument 'refs' is not well define.");
     }
   }
-
   # Estimate the initial values of Affinities and Naive Genotyping calls
-  WHinit <- WHInit(V);
+  WHinit <- WHInit(V[,refs]);
   status <- WHinit$status;
 
   W <- WHinit$W;  # Not really used
   H <- WHinit$H;
   
-  W <- robustWInit(V, H=H);
+  W <- robustWInit(V[,refs], H=H);
   H <- robustHInit(V, W=W);
 
   V <- removeOutliers(V, W=W, H=H);
@@ -81,7 +80,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
   # The algorithm (for one allele) is already a robust estimator
   if (status == 1L || status == 2L) {
     # Shrink average total copy numbers to be close to CN=2.
-    totalCNs <- colSums(H);
+    totalCNs <- colSums(H[,refs]);
     b <- median(totalCNs)/2; # Scale factor
     W <- b*W;
     H <- H/b;
@@ -114,7 +113,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
       H <- diag(norms) %*% H;
 
       # Shrink average total copy numbers to be close to CN=2.
-      totalCNs <- colSums(H);
+      totalCNs <- colSums(H[,refs]);
       b <- median(totalCNs)/2; # Scale factor
       W <- b*W;
       H <- H/b;
@@ -128,7 +127,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
 
     # Robust method for shrinking the average total copy number
     # to close to CN=2.
-    Dmat <- rlm(t(H), matrix(data=2, nrow=ncol(H), ncol=1), maxit=maxIterRlm);
+    Dmat <- rlm(t(H[,refs]), matrix(data=2, nrow=ncol(H[,refs]), ncol=1), maxit=maxIterRlm);
     coefs <- Dmat$coefficients;
     H <- diag(coefs) %*% H;
     W <- W %*% diag(1/coefs);
