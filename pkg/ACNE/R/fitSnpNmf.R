@@ -98,13 +98,13 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
       Hprev <- H;
   
       # Compute new W solving the system of equations
-      H[H <= 0] <- eps;
+      H[H < eps] <- eps;
       W <- t(miqr.solve(t(H), t(V)));
-      W[W <= 0] <- eps;
+      W[W < eps] <- eps;
 
       # Compute the H
       H <- miqr.solve(W, V);
-      H[H <= 0] <- eps;
+      H[H < eps] <- eps;
   
       # Normalizing the W
       norms <- colSums(W);
@@ -133,8 +133,8 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
     W <- W %*% diag(1/coefs);
 
     # Truncate non-positive estimate
-    H[H <= 0] <- eps;
-    W[W <= 0] <- eps;
+    H[H < eps] <- eps;
+    W[W < eps] <- eps;
   } # if (status ...)
 
   # Sanity check (may be removed in the future /HB 2009-03-24)
