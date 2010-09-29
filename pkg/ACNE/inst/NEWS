@@ -1,8 +1,13 @@
 Package: ACNE
 =============
 
+Version: 0.4.2 [2010-09-28]
+o ROBUSTIFICATION: Improved validation of argument 'refs'.
+
+
 Version: 0.4.1 [2010-06-21]
 o Added more biocViews to the DESCRIPTION file.
+o Added argument 'refs' to NmfPlm() and fitSnpNmf().
 
 
 Version: 0.4.0 [2010-05-18]

@@ -18,7 +18,8 @@
 #     iterations used to calculate the decomposition.}
 #  \item{maxIterRlm}{A positive @integer specifying the maximum number of
 #     iterations used in rlm.}
-#  \item{refs}{An index vector (numeric or logical) specifying the normal samples.}
+#  \item{refs}{An index @vector (@integer or @logical) specifying the
+#     reference samples.  If @NULL, all samples are used as a reference.}
 # }
 #
 # \value{
@@ -44,9 +45,28 @@
 #
 # @keyword internal
 #*/###########################################################################
-fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
+fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
   I <- ncol(V);
   K <- nrow(V);
+
+  # Argument 'refs':
+  if (is.null(refs)) {
+    refs <- seq(length=I);
+  } else if (!is.vector(refs)) {
+    throw("Argument 'refs' is not a vector: ", class(refs)[1]);
+  } else if (is.logical(refs)) {
+    if (length(refs) != I) {
+      throw("The number of elements in argument 'refs' does not match the number of column in argument 'V': ", length(refs), " != ", I);
+    }
+    refs <- which(refs);
+  } else if (is.numeric(refs)) {
+    if (!all(1 <= refs & refs <= I)) {
+      throw("Some elements in argument 'refs' is out of range [1,", I, "].");
+    }
+    refs <- as.integer(refs);
+  } else {
+    throw("Argument 'refs' must be either a logical or a numeric vector: ", mode(refs));
+  }
 
   # A small positive value
   eps <- 1e-5;
@@ -56,22 +76,14 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
   # Truncate negative values to a small positive value
   V[V < eps] <- eps;
 
-  # Reference sample vector
-  if(length(refs) == 1 & refs == 0){
-    refs <- matrix(TRUE, nrow=1, ncol=I); 
-  }else{
-    if(!is.vector(refs) || (is.logical(refs)&&length(refs)!=I) || (length(refs)>I)){
-      throw("Argument 'refs' is not well define.");
-    }
-  }
   # Estimate the initial values of Affinities and Naive Genotyping calls
-  WHinit <- WHInit(V[,refs]);
+  WHinit <- WHInit(V[,refs,drop=FALSE]);
   status <- WHinit$status;
 
   W <- WHinit$W;  # Not really used
   H <- WHinit$H;
   
-  W <- robustWInit(V[,refs], H=H);
+  W <- robustWInit(V[,refs,drop=FALSE], H=H);
   H <- robustHInit(V, W=W);
 
   V <- removeOutliers(V, W=W, H=H);
@@ -80,7 +92,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
   # The algorithm (for one allele) is already a robust estimator
   if (status == 1L || status == 2L) {
     # Shrink average total copy numbers to be close to CN=2.
-    totalCNs <- colSums(H[,refs]);
+    totalCNs <- colSums(H[,refs,drop=FALSE]);
     b <- median(totalCNs)/2; # Scale factor
     W <- b*W;
     H <- H/b;
@@ -113,7 +125,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
       H <- diag(norms) %*% H;
 
       # Shrink average total copy numbers to be close to CN=2.
-      totalCNs <- colSums(H[,refs]);
+      totalCNs <- colSums(H[,refs,drop=FALSE]);
       b <- median(totalCNs)/2; # Scale factor
       W <- b*W;
       H <- H/b;
@@ -127,7 +139,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
 
     # Robust method for shrinking the average total copy number
     # to close to CN=2.
-    Dmat <- rlm(t(H[,refs]), matrix(data=2, nrow=ncol(H[,refs]), ncol=1), maxit=maxIterRlm);
+    Dmat <- rlm(t(H[,refs,drop=FALSE]), matrix(data=2, nrow=ncol(H[,refs,drop=FALSE]), ncol=1), maxit=maxIterRlm);
     coefs <- Dmat$coefficients;
     H <- diag(coefs) %*% H;
     W <- W %*% diag(1/coefs);
@@ -147,9 +159,12 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20,refs = 0) {
 
 ############################################################################
 # HISTORY:
+# 2010-09-28 [HB]
+# o Now argument 'refs' defaults to NULL (not 0), which means all samples.
+# o Clean up and robustification of recent edits.
 # 2010-06-04 [MO]
 # o Added refs as argument.
-# 2010-5-18 [MO]
+# 2010-05-18 [MO]
 # o Added maxIterRlm as argument.
 # 2009-11-18 [HB]
 # o Removed internal save() in fitSnpNmf().

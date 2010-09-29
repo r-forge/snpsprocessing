@@ -16,7 +16,7 @@
   Non-negative matrix factorization (NMF) of a matrix containing SNP probe signals.
  }
 
- \usage{fitSnpNmf(V, acc=0.02, maxIter=10, maxIterRlm=20)}
+ \usage{fitSnpNmf(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL)}
 
  \arguments{
   \item{V}{An KxI \code{\link[base]{matrix}} where I is the number of arrays and K is the
@@ -27,6 +27,8 @@
      iterations used to calculate the decomposition.}
   \item{maxIterRlm}{A positive \code{\link[base]{integer}} specifying the maximum number of
      iterations used in rlm.}
+  \item{refs}{An index \code{\link[base]{vector}} (\code{\link[base]{integer}} or \code{\link[base]{logical}}) specifying the
+     reference samples.  If \code{\link[base]{NULL}}, all samples are used as a reference.}
  }
 
  \value{

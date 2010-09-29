@@ -14,8 +14,10 @@
 # \arguments{
 #   \item{...}{Arguments passed to @see "aroma.affymetrix::ProbeLevelModel".}
 #   \item{maxIter}{The maximum number of iteration in the NMF step.}
-#  \item{maxIterRlm}{A positive @integer specifying the maximum number of
+#   \item{maxIterRlm}{A positive @integer specifying the maximum number of
 #     iterations used in rlm.}
+#   \item{refs}{An index @vector (@integer or @logical) specifying the
+#     reference samples.  If @NULL, all samples are used as a reference.}
 #   \item{flavor}{(Internal/developmental only)
 #      A @character string specifying which algorithm to use.}
 # }
@@ -31,7 +33,7 @@
 #
 # @author
 #*/########################################################################### 
-setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm = 20, refs = 0, flavor=c("v4", "v3", "v2", "v1")) {
+setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, refs=NULL, flavor=c("v4", "v3", "v2", "v1")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -139,11 +141,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     maxIterRlm <- 20;
   }
 
-  # Control samples.
+  # Reference samples.
   refs <- this$.refs;
-  if (is.null(refs)) {
-    refs <- 0;
-  }
 
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -237,6 +236,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
 ############################################################################
 # HISTORY:
+# 2010-09-28 [HB]
+# o Now argument 'refs' defaults to NULL (not 0), which means all samples.
 # 2010-06-04 [MO]
 # o Added refs as argument.
 # 2010-05-18 [MO]
