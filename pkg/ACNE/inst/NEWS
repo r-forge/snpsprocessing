@@ -11,7 +11,7 @@ o Added argument 'refs' to NmfPlm() and fitSnpNmf().
 
 
 Version: 0.4.0 [2010-05-18]
-o BUG FIX: The NmfSnp class would use a way to large threshold
+o BUG FIX: The NmfSnp class would use a way too large threshold
   for deciding when the NMF algorithm has converged.  The
   default accuracy 0.02 was replaced with 10.0 due to a "stray"
   argument in an internal function call.  This bug has been there
