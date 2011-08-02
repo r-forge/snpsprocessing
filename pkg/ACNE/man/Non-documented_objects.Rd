@@ -25,6 +25,7 @@
 \alias{doACNE}
 \alias{doACNE.AffymetrixCelSet}
 \alias{doACNE.character}
+\alias{cat}
 
 \description{
   This page contains aliases for all "non-documented" objects that

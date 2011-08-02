@@ -7,3 +7,4 @@ getFitUnitFunction.NmfPlm getProbeAffinityFile.NmfPlm
 plotFreqB
 miqr.solve
 doACNE doACNE.AffymetrixCelSet doACNE.character
+cat

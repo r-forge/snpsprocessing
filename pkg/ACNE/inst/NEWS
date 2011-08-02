@@ -1,6 +1,13 @@
 Package: ACNE
 =============
 
+Version: 0.4.3 [2011-08-01]
+o WORKAROUND: In order for the package to work with the most recent
+  version of R devel, which automatically add namespaces to packages
+  who do not have one, we explicitly have specify that this package
+  should use, for instance, cat() of R.utils (instead of 'base').
+
+
 Version: 0.4.2 [2010-09-28]
 o ROBUSTIFICATION: Improved validation of argument 'refs'.
 
