@@ -1,0 +1,13 @@
+NSAByTotalAndFracB.matrix
+                        Finds normal regions within tumoral samples
+                        (total,fracB)
+NSANormalization        The NSANormalization class
+SNPsNormalization       The SNPsNormalization class
+SampleNormalization     The SampleNormalization class
+fitNSA.matrix           Find normal regions
+sampleNByTotalAndFracB.numeric
+                        Normalize total copy numbers by samples
+                        (total,fracB)
+snpsNByTotalAndFracB.matrix
+                        Normalize allele-specific copy numbers
+                        (total,fracB)
