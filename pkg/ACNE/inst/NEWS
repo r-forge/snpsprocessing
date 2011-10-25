@@ -1,6 +1,10 @@
 Package: ACNE
 =============
 
+Version: 0.5.0 [2011-10-24]
+o Added a NAMESPACE.
+
+
 Version: 0.4.3 [2011-08-01]
 o WORKAROUND: In order for the package to work with the most recent
   version of R devel, which automatically add namespaces to packages
