@@ -6,7 +6,7 @@
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\name{NSA-package}
+ \name{NSA-package}
 \alias{NSA-package}
 \alias{NSA}
 \docType{package}
@@ -31,7 +31,7 @@
 
  \section{To get started}{
   \enumerate{
-   \item To process SNP and non-polymorphic signals, see \code{\link{NSAByTotalAndFracB}}().
+   \item To process SNP and non-polymorphic signals, see \code{\link{NSAByTotalAndFracB}}.
    \item For processing data in the aroma framework, see \code{\link{NSANormalization}}.
   }
  }
@@ -39,7 +39,7 @@
  \author{
    Maria Ortiz-Estevez <mortiz@ceit.es>,
    Ander Aramburu <aaramburu@ceit.es>,
-   Angel Rubio <arubio@ceit.es>.
+   Pierre Neuvial <pierre@stat.berkeley.edu>,
  }
 
  \section{License}{

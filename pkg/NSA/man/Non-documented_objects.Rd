@@ -80,7 +80,6 @@
 \alias{truncateFracB.array}
 \alias{truncateFracB.matrix}
 \alias{truncateThetaAB.matrix}
-\alias{truncateThetaAB.matrix}
 \alias{fitSNPsN}
 \alias{fitSample}
 \alias{fitOneNSA}
