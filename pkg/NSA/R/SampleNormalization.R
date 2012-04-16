@@ -535,60 +535,44 @@ setMethodS3("process", "SampleNormalization", function(this, arrays=NULL, refere
     dfout <- getFile(ds, sampleDone);
 
     df <- getFile(rsNR, kk);
-    
-#    for(chr in chromosomes){
-
-#      verbose && enter(verbose, sprintf("Chromosome %s", chr));
-#      units <- getUnitsOnChromosome(gi, chr);
-#      pos <- getPositions(gi, units = units);
-#      units <- units[order(pos)];
-
-      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      # Reading (total,fracB) data
-      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      verbose && enter(verbose, "Reading (total) data");
- #     total <- dfTotal[units,drop=TRUE];
-      total <- dfTotal[,drop=TRUE];
-      verbose && str(verbose, total);
-      verbose && exit(verbose);    
-
-      verbose && enter(verbose, "Reading normal regions");
-#      normalReg <- df[units,drop=TRUE];
-      normalReg <- df[,drop=TRUE];
-      verbose && str(verbose, normalReg);
-      verbose && exit(verbose);    
-
- 
-      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      # Finding Normal Regions
-      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   
-      verbose && enter(verbose, "Normalizing by sample:");
-      signals <- sampleNByTotalAndFracB(total, references = normalReg, ..., verbose=less(verbose,5));
-      verbose && exit(verbose);
-  
-      verbose && cat(verbose, "Signals:");
-      verbose && str(verbose, signals);
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Reading (total,fracB) data
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    verbose && enter(verbose, "Reading (total) data");
+    total <- dfTotal[,drop=TRUE];
+    verbose && str(verbose, total);
+    verbose && exit(verbose);    
 
-      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      # Storing normalized data
-      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      verbose && enter(verbose, "Storing normalized data");
-#      dfout[units,1] <- signals;
-      dfout[,1] <- signals;
-      rm(signals);
-#      verbose && exit(verbose);
-
-      verbose && exit(verbose);
-
-#   } #for chromosomes
+    verbose && enter(verbose, "Reading normal regions");
+    normalReg <- df[,drop=TRUE];
+    verbose && str(verbose, normalReg);
+    verbose && exit(verbose);    
 
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Finding Normal Regions
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    verbose && enter(verbose, "Normalizing by sample:");
+    signals <- sampleNByTotalAndFracB(total, references = normalReg, ..., verbose=less(verbose,5));
+    verbose && exit(verbose);
 
-  verbose && exit(verbose);
-  count <- count+1;
-} #for arrays
+    verbose && cat(verbose, "Signals:");
+    verbose && str(verbose, signals);
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Storing normalized data
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    verbose && enter(verbose, "Storing normalized data");
+    dfout[,1] <- signals;
+    rm(signals);
+
+    verbose && exit(verbose);
+
+    verbose && exit(verbose);
+    count <- count+1;
+  } #for arrays
   verbose && exit(verbose);
   invisible(res);
 })
