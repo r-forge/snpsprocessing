@@ -7,7 +7,7 @@
 #  @classhierarchy
 #
 #  This class represents the Sample normalization method [1], which 
-#  looks for normal regions within the tumoral samples.
+#  scales the total copy numbers sample by sample.
 # }
 #                                                                                                                                                          
 # @synopsis 
@@ -27,10 +27,6 @@
 #  @allmethods "public"  
 # }
 # 
-# \details{
-#   ...
-# }
-#
 #
 # \references{
 #   [1] ...
@@ -399,7 +395,7 @@ setMethodS3("findArraysTodo", "SampleNormalization", function(this, arrays, ...,
 ###########################################################################/**
 # @RdocMethod process
 #
-# @title "Finds normal regions within tumoral samples"
+# @title "Scaling of the copy number values sample by sample"
 #
 # \description{
 #  @get "title".
@@ -408,16 +404,17 @@ setMethodS3("findArraysTodo", "SampleNormalization", function(this, arrays, ...,
 # @synopsis
 #
 # \arguments{
-#   \item{...}{Additional arguments passed to 
-#     @see "aroma.light::normalizeFragmentLength" (only for advanced users).}
-#   \item{arrays}{Index vector indicating which samples to process.}
-#   \item{force}{If @TRUE, data already normalized is re-normalized, 
-#       otherwise not.}
+#   \item{this}(Object gerenated by SNPsNormalization.)
+#   \item{references}{@logical or @numeric @matrix saying which samples should be considered as normal, previously
+#                     calculated by @see "NSANormalization.".}
+#   \item{units}{@numeric @vector indicating the specific units to scale. The default value is "remaining".}
+#   \item{force}{@logical flag indicating if the already scaled units have to be scaled again. Initially set to FALSE.}
+#   \item{...}{Additional arguments passed to @see "SNPsNormalization".}
 #   \item{verbose}{See @see "R.utils::Verbose".}
 # }
 #
 # \value{
-#  Returns a @double @vector.
+#  Returns a @numeric @matrix.
 # }
 #   
 # \seealso{

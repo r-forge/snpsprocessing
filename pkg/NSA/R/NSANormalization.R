@@ -27,10 +27,6 @@
 #  @allmethods "public"  
 # }
 # 
-# \details{
-#   ...
-# }
-#
 # \examples{\dontrun{
 #   @include "../incl/NSANormalization.Rex"
 # }}

@@ -12,15 +12,14 @@
 # @synopsis
 #
 # \arguments{
-#  \item{data}{An JxI @numeric @array, where J is the number of SNPs,
-#          and I is the number of samples.}
-#  \item{...}{Additional arguments passed to internal NSA}
+#  \item{data}{An Jx2 @numeric @array containing the allele specific copy number values of a number of J SNPs.}
+#  \item{...}{Additional argument "chromosome" which indicates the chromosome to which the SNPs correspond to.
+#   It is passed to internal NSA.}
 # }
 #
 # \value{
-#   Returns an JxI @numeric @array.
+#   Returns an Jx2 @numeric @array with the values of the level of hetezorigosity in one column and NA in the other.
 # }                                   
-#
 #
 #*/###########################################################################
 
@@ -44,7 +43,7 @@ setMethodS3("fitNSA", "matrix", function(data, ...) {
   fit;
 }, private=TRUE)
 
-fitOneNSA <- function(data, chromosome=NULL,...) 
+fitOneNSA <- function(data, chromosome=NULL) 
 {
   dataA <- data[,1]*(1-data[,2]);
   dataB <- data[,1]*data[,2]

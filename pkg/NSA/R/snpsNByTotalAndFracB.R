@@ -7,26 +7,24 @@
 #
 # \description{
 #  @get "title", where total is the total (non-polymorphic) signal and
-#  fracB is the allele B fraction.
-#  It is only loci with a non-missing (@NA) fracB value that are
-#  considered to be SNPs and normalized by CalMaTe.  The other loci
-#  are left untouched.
+#  fracB is the allele B fraction. It normalizes the data snp by snp.
 # }
 #
 # @synopsis
 #
 # \arguments{
-#  \item{data}{An Jx2xI @numeric @array, where J is the number of loci,
-#                      2 is total and fracB, and I is the number of samples.}
-#  \item{references}{A @logical or @numeric @vector specifying which
+#  \item{data}{An JxI @matrix containing the copy number values, where J is the number of loci,
+#                      and I is the number of samples.}
+#  \item{references}{A @logical or @numeric @matrix specifying which
 #     samples should be used as the reference set.  
 #     By default, all samples are considered.}
-#  \item{...}{Additional arguments passed to fitSNPsN.}
+#  \item{...}{Optional argument passed to fitSample(). This argument "Threshold" is used to determine if
+#     one region is considered normal or not. Initially set to .135.}
 #  \item{verbose}{See @see "R.utils::Verbose".}
 # }
 #
 # \value{
-#   Returns an Jx2xI @numeric @array.
+#   Returns an JxI @numeric @matrix.
 # }
 #*/###########################################################################
 setMethodS3("snpsNByTotalAndFracB", "matrix", function(data, references = NULL, ..., verbose=FALSE) {

@@ -12,16 +12,13 @@
 # @synopsis
 #
 # \arguments{
-#  \item{data}{An JxI @numeric @array, where J is the number of SNPs,
-#          and I is the number of samples.}
-#  \item{...}{Additional arguments passed to internal 
-#             NSA();}
+#  \item{data}{An Jx2 @numeric @array containing copy number values, where J is the number of SNPs.}
+#  \item{...}{Not used.}
 # }
 #
 # \value{
-#   Returns an JxI @numeric @array.
+#   Returns an Jx2 @numeric @array with the "normality information" of the CN probes.
 # }                                   
-#
 #
 #*/###########################################################################
 

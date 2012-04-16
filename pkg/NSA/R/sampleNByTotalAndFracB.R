@@ -8,25 +8,24 @@
 # \description{
 #  @get "title", where total is the total (non-polymorphic) signal and
 #  fracB is the allele B fraction.
-#  It is only loci with a non-missing (@NA) fracB value that are
-#  considered to be SNPs and normalized by NSA.  The other loci
-#  are left untouched.
 # }
 #
 # @synopsis
 #
 # \arguments{
-#  \item{data}{An J @numeric @vector, where J is the number of loci for an specific sample.}
-#  \item{references}{An object specifying the normal regions of each sample.}
-#  \item{...}{Additional arguments passed to 
-#         fitSNPsN.}
+#  \item{data}{An JxI @matrix containing the copy number values, where J is the number of loci,
+#                      and I is the number of samples.}
+#  \item{references}{A @logical or @numeric @matrix specifying which
+#     samples should be used as the reference set.  
+#     By default, all samples are considered.}
+#  \item{...}{Optional argument passed to fitSNPsN(). This argument "Threshold" is used to determine if
+#     one region is considered normal or not. Initially set to .135.}
 #  \item{verbose}{See @see "R.utils::Verbose".}
 # }
 #
 # \value{
 #   Returns an Jx2 @numeric @array.
 # }
-#
 #
 #*/###########################################################################
 setMethodS3("sampleNByTotalAndFracB", "numeric", function(data, references=NULL, ..., verbose=FALSE) {

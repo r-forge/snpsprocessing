@@ -7,8 +7,7 @@
 #  @classhierarchy
 #
 #  This class represents the SNPs normalization method [1], which 
-#  corrects for SNP effects in allele-specific copy-number estimates
-#  (ASCNs).
+#  scales copy number values SNP by SNP.
 # }
 # 
 # @synopsis 
@@ -27,11 +26,6 @@
 # \section{Fields and Methods}{
 #  @allmethods "public"  
 # }
-# 
-# \details{
-#   ...
-# }
-#
 #
 # \references{
 #   [1] ...
@@ -388,6 +382,35 @@ setMethodS3("findUnitsTodo", "SNPsNormalization", function(this, units, ..., ver
   units;
 })
 
+###########################################################################/**
+# @RdocMethod process
+#
+# @title "Scaling of the copy number values SNP by SNP"
+#
+# \description{
+#  @get "title".
+# }
+#
+# @synopsis
+#
+# \arguments{
+#   \item{this}(Object gerenated by SNPsNormalization.)
+#   \item{references}{@logical or @numeric @matrix saying which samples should be considered as normal, previously
+#                     calculated by @see "NSANormalization.".}
+#   \item{units}{@numeric @vector indicating the specific units to scale. The default value is "remaining".}
+#   \item{force}{@logical flag indicating if the already scaled units have to be scaled again. Initially set to FALSE.}
+#   \item{...}{Additional arguments passed to @see "SNPsNormalization".}
+#   \item{verbose}{See @see "R.utils::Verbose".}
+# }
+#
+# \value{
+#  Returns a @double @vector.
+# }
+#   
+# \seealso{
+#   @seeclass
+# }
+#*/###########################################################################
 
 setMethodS3("process", "SNPsNormalization", function(this, references = NULL, units="remaining", ..., force=FALSE, ram=NULL, verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -9,8 +9,7 @@
 #  @get "title", where total is the total (non-polymorphic) signal and
 #  fracB is the allele B fraction.
 #  It is only loci with a non-missing (@NA) fracB value that are
-#  considered to be SNPs and normalized by CalMaTe.  The other loci
-#  are left untouched.
+#  considered to calculate the normal regions.
 # }
 #
 # @synopsis
@@ -18,7 +17,7 @@
 # \arguments{
 #  \item{data}{An Jx2 @matrix, where J is the number of loci and
 #                      2 is total and fracB.}
-#  \item{...}{Not used.}
+#  \item{...}{Additional arguments passed to fitNSA().}
 #  \item{verbose}{See @see "R.utils::Verbose".}
 # }
 #
