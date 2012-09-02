@@ -95,7 +95,7 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, ram=NULL
   verbose && exit(verbose);
 
   res;
-}) # doCRMAv2()
+}) # doACNE()
 
 
 setMethodS3("doACNE", "character", function(dataSet, ..., verbose=FALSE) {
@@ -126,7 +126,7 @@ setMethodS3("doACNE", "character", function(dataSet, ..., verbose=FALSE) {
   verbose && exit(verbose);
 
   res;
-})
+}) # doACNE()
 
 
 ############################################################################
