@@ -29,7 +29,7 @@ setConstructorS3("NmfSnpPlm", function(..., mergeStrands=FALSE) {
 
 
 setMethodS3("getAsteriskTags", "NmfSnpPlm", function(this, collapse=NULL, ...) {
-  tags <- NextMethod("getAsteriskTags", this, collapse=collapse, ...);
+  tags <- NextMethod("getAsteriskTags", collapse=NULL);
 
   # Add class specific parameter tags
   if (!this$mergeStrands)

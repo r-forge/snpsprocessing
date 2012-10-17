@@ -60,7 +60,7 @@ setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, refs=NULL, f
 setMethodS3("getAsteriskTags", "NmfPlm", function(this, collapse=NULL, ...) {
   # Returns 'PLM[,<shift>]'
   
-  tags <- NextMethod("getAsteriskTags", this, collapse=NULL);
+  tags <- NextMethod("getAsteriskTags", collapse=NULL);
   tags[1] <- "NMF";
 
   flavor <- this$.flavor;
@@ -80,7 +80,7 @@ setMethodS3("getProbeAffinityFile", "NmfPlm", function(this, ...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Get the probe affinities (and create files etc)
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  paf <- NextMethod("getProbeAffinityFile", this, ...);
+  paf <- NextMethod("getProbeAffinityFile");
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Update the encode and decode functions

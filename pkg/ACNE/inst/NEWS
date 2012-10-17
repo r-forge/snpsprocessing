@@ -1,6 +1,13 @@
 Package: ACNE
 =============
 
+Version: 0.5.1 [2012-10-16]
+o ROBUSTNESS/BUG FIX: No longer passing '...' to NextMethod(), cf.
+  R-devel thread 'Do *not* pass '...' to NextMethod() - it'll do it 
+  for you; missing documentation, a bug or just me?' on Oct 16, 2012.
+o Now package imports utils, R.methodsS3 and R.oo.
+
+
 Version: 0.5.0 [2011-10-24]
 o Added a NAMESPACE.
 
