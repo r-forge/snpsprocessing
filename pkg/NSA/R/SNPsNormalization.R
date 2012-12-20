@@ -320,7 +320,10 @@ setMethodS3("allocateOutputDataSets", "SNPsNormalization", function(this, ..., v
     dsOut <- byPath(ds, path=path, ...);
 
     # AD HOC: The above byPath() grabs all *.asb files. /HB 2010-06-20
-    keep <- is.element(sapply(dsOut, getFilename), sapply(ds, getFilename));
+##    keep <- is.element(sapply(dsOut, getFilename), sapply(ds, getFilename));
+    filenamesOut <- basename(getPathnames(dsOut));
+    filenames <- basename(getPathnames(ds));
+    keep <- is.element(filenamesOut, filenames);
     dsOut <- extract(dsOut, keep);
 
     res[[kk]] <- dsOut;

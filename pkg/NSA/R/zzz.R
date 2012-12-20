@@ -9,9 +9,6 @@
 # From R.utils:
 cat <- R.utils::cat;
 
-# From R.filesets:
-sapply <- R.filesets::sapply;
- 
 
 .First.lib <- function(libname, pkgname) {
   pd <- packageDescription(pkgname);
