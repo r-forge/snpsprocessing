@@ -16,7 +16,9 @@
   Non-negative matrix factorization (NMF) of a matrix containing SNP probe signals.
  }
 
- \usage{fitSnpNmf(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL)}
+ \usage{
+fitSnpNmf(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL)
+}
 
  \arguments{
   \item{V}{An KxI \code{\link[base]{matrix}} where I is the number of arrays and K is the

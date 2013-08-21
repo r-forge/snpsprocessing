@@ -16,7 +16,9 @@
   Allele-specific copy number estimation using non-negative matrix factorization (NMF).
  }
 
- \usage{fitSnpNmfArray(Y, ...)}
+ \usage{
+fitSnpNmfArray(Y, ...)
+}
 
  \arguments{
   \item{Y}{An Lx2xI \code{\link[base]{array}} where L is number of probe pairs,

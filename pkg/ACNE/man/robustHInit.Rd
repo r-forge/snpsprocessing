@@ -16,7 +16,9 @@
   Robust initialization of the H (copy number) matrix.
  }
 
- \usage{robustHInit(V, W, maxIter=5, ...)}
+ \usage{
+robustHInit(V, W, maxIter=5, ...)
+}
 
  \arguments{
   \item{V}{An KxI \code{\link[base]{matrix}} where I is the number of arrays and K is the

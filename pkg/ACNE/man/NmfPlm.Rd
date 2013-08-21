@@ -19,28 +19,32 @@
 
 \code{\link[R.oo]{Object}}\cr
 \code{~~|}\cr
-\code{~~+--}\code{\link[aroma.affymetrix]{Model}}\cr
+\code{~~+--}\code{\link[aroma.core]{ParametersInterface}}\cr
 \code{~~~~~~~|}\cr
-\code{~~~~~~~+--}\code{\link[aroma.affymetrix]{UnitModel}}\cr
+\code{~~~~~~~+--}\code{\link[aroma.affymetrix]{Model}}\cr
 \code{~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~+--}\code{\link[aroma.affymetrix]{MultiArrayUnitModel}}\cr
+\code{~~~~~~~~~~~~+--}\code{\link[aroma.affymetrix]{UnitModel}}\cr
 \code{~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.affymetrix]{ProbeLevelModel}}\cr
+\code{~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.affymetrix]{MultiArrayUnitModel}}\cr
 \code{~~~~~~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~+--}\code{NmfPlm}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.affymetrix]{ProbeLevelModel}}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~|}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\emph{\code{NmfPlm}}\cr
 
 \bold{Directly known subclasses:}\cr
-\link[ACNE]{NmfSnpPlm}\cr
+\emph{\link[ACNE]{NmfSnpPlm}}\cr
 
-public static class \bold{NmfPlm}\cr
-extends \link[aroma.affymetrix]{ProbeLevelModel}\cr
+public abstract static class \bold{NmfPlm}\cr
+extends \emph{\link[aroma.affymetrix]{ProbeLevelModel}}\cr
 
 
 
   This class represents the NMF model of [REF].
  }
 
- \usage{NmfPlm(..., maxIter=10, maxIterRlm=20, refs=NULL, flavor=c("v4", "v3", "v2", "v1"))}
+ \usage{
+NmfPlm(..., maxIter=10, maxIterRlm=20, refs=NULL, flavor=c("v4", "v3", "v2", "v1"))
+}
 
  \arguments{
    \item{...}{Arguments passed to \code{\link[aroma.affymetrix]{ProbeLevelModel}}.}
@@ -61,19 +65,22 @@ extends \link[aroma.affymetrix]{ProbeLevelModel}\cr
 
 
  \bold{Methods inherited from ProbeLevelModel}:\cr
-calculateResidualSet, calculateWeights, fit, getAsteriskTags, getCalculateResidualsFunction, getChipEffectSet, getProbeAffinityFile, getResidualSet, getWeightsSet
+calculateResidualSet, calculateWeights, fit, getAsteriskTags, getCalculateResidualsFunction, getChipEffectSet, getProbeAffinityFile, getResidualSet, getRootPath, getWeightsSet
 
  \bold{Methods inherited from MultiArrayUnitModel}:\cr
 getListOfPriors, setListOfPriors, validate
 
  \bold{Methods inherited from UnitModel}:\cr
-findUnitsTodo, getAsteriskTags, getFitSingleCellUnitFunction
+findUnitsTodo, getAsteriskTags, getFitSingleCellUnitFunction, getParameters
 
  \bold{Methods inherited from Model}:\cr
-fit, getAlias, getAsteriskTags, getDataSet, getFullName, getName, getPath, getRootPath, getTags, setAlias, setTags
+as.character, fit, getAlias, getAsteriskTags, getDataSet, getFullName, getName, getParameterSet, getPath, getRootPath, getTags, setAlias, setTags
+
+ \bold{Methods inherited from ParametersInterface}:\cr
+getParameterSets, getParameters, getParametersAsString
 
  \bold{Methods inherited from Object}:\cr
-asThis, getChecksum, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save
+$, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save, asThis
 
 
  }
@@ -83,5 +90,5 @@ asThis, getChecksum, $, $<-, [[, [[<-, as.character, attach, attachLocally, clea
    \code{\link{fitSnpNmf}}() function.
  }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \author{Angel Rubio, Maria Ortiz, Henrik Bengtsson}
 \keyword{classes}

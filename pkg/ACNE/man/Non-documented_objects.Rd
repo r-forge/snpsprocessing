@@ -39,7 +39,7 @@
   The rest are deprecated methods.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Angel Rubio, Maria Ortiz, Henrik Bengtsson}
 
 
 \keyword{documentation}

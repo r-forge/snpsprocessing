@@ -16,7 +16,9 @@
   Calculates the pseudo inverse of a matrix.
  }
 
- \usage{pseudoinverse(X, ...)}
+ \usage{
+pseudoinverse(X, ...)
+}
 
  \arguments{
   \item{X}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}.}

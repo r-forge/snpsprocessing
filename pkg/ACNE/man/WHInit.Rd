@@ -16,7 +16,9 @@
   Initialization of the W and H matrices.
  }
 
- \usage{WHInit(V, ...)}
+ \usage{
+WHInit(V, ...)
+}
 
  \arguments{
   \item{V}{An KxI \code{\link[base]{matrix}} where I is the number of arrays and

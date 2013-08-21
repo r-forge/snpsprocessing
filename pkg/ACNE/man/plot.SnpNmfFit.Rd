@@ -10,9 +10,7 @@
  \name{plot.SnpNmfFit}
 \alias{plot.SnpNmfFit}
 \alias{SnpNmfFit.plot}
-\alias{plot.SnpNmfFit}
 \alias{plot,SnpNmfFit-method}
-
 
  \title{Generates a multi-panel plot summarizing the NMF SNP fit}
 
@@ -20,7 +18,9 @@
   Generates a multi-panel plot summarizing the NMF SNP fit.
  }
 
- \usage{\method{plot}{SnpNmfFit}(x, lim=c(0, 2^16), cnLim=c(0, 4), epsLim=c(-1, 1) * 2^12, main=NULL, ...)}
+ \usage{
+\method{plot}{SnpNmfFit}(x, lim=c(0, 2^16), cnLim=c(0, 4), epsLim=c(-1, 1) * 2^12, main=NULL, ...)
+}
 
  \arguments{
   \item{lim, cnLim, epsLim}{The plot ranges for the probe data,

@@ -16,7 +16,9 @@
   Robust initialization of the W (affinity) matrix.
  }
 
- \usage{robustWInit(V, H, maxIter=50, ...)}
+ \usage{
+robustWInit(V, H, maxIter=50, ...)
+}
 
  \arguments{
   \item{V}{An KxI \code{\link[base]{matrix}} where I is the number of arrays and K is the

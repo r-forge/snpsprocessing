@@ -17,7 +17,9 @@
   Reshapes SNP data in matrix form to array form and vice versa.
  }
 
- \usage{snpArrayToMatrix(Y, dropNames=TRUE, ...)}
+ \usage{
+snpArrayToMatrix(Y, dropNames=TRUE, ...)
+}
 
  \arguments{
   \item{Y}{A 2LxI \code{\link[base]{matrix}} or a Lx2xI \code{\link[base]{array}},

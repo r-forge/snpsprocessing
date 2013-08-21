@@ -19,7 +19,9 @@
    and copy number (\code{H}) estimates.
  }
 
- \usage{removeOutliers(Y, W, H, tau=10, ...)}
+ \usage{
+removeOutliers(Y, W, H, tau=10, ...)
+}
 
  \arguments{
   \item{Y}{An IxK \code{\link[base]{matrix}}.}
