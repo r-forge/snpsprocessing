@@ -6,6 +6,7 @@ o CLEANUP: Now package no longer attaches ("loads") several of the
   dependent packages, e.g. R.methods, R.oo, matrixStats, MASS.
 o CLEANUP: Added .Rbuildignore to package so that incl/ and other
   directories/files are not included in the source build.
+o Bumped the package dependencies.
 
 
 Version: 0.5.1 [2012-10-16]
