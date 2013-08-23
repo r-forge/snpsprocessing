@@ -1,6 +1,10 @@
 Package: ACNE
 =============
 
+Version: 0.6.1 [2013-08-23]
+o Now formally declaring S3 methods in NAMESPACE.
+
+
 Version: 0.6.0 [2013-08-21]
 o CLEANUP: Now package no longer attaches ("loads") several of the
   dependent packages, e.g. R.methods, R.oo, matrixStats, MASS.

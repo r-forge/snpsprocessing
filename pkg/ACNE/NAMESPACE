@@ -8,6 +8,7 @@ import("R.utils")
 import("matrixStats")
 ##import("utils")
 import("MASS")
+importFrom("R.filesets", "getAsteriskTags")
 import("aroma.affymetrix")
 
 
@@ -22,3 +23,12 @@ exportPattern("^[^\\.]")
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # DECLARATIONS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+S3method("doACNE", "AffymetrixCelSet")
+S3method("doACNE", "character")
+
+S3method("getAsteriskTags", "NmfPlm")
+S3method("getProbeAffinityFile", "NmfPlm")
+S3method("getFitUnitFunction", "NmfPlm")
+S3method("getAsteriskTags", "NmfSnpPlm")
+
+S3method("plot", "SnpNmfFit")
