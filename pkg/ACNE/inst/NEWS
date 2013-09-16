@@ -1,6 +1,10 @@
 Package: ACNE
 =============
 
+Version: 0.6.2 [2013-09-16]
+o Bumped the package dependencies.
+
+
 Version: 0.6.1 [2013-08-23]
 o Now formally declaring S3 methods in NAMESPACE.
 
