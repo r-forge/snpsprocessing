@@ -1,4 +1,4 @@
-###########################################################################/** 
+###########################################################################/**
 # @set "class=SnpNmfFit"
 # @RdocMethod plot
 #
@@ -11,7 +11,7 @@
 # @synopsis
 #
 # \arguments{
-#  \item{lim, cnLim, epsLim}{The plot ranges for the probe data, 
+#  \item{lim, cnLim, epsLim}{The plot ranges for the probe data,
 #     the CN estimates, and the probe-affinity estimates.}
 #  \item{main}{A @character string to be the main title of the plot.}
 #  \item{...}{Not used.}
@@ -41,7 +41,7 @@ str(Y)
 str(Yest)
   E <- Y - Yest;
 
-  layout(matrix(1:4, ncol=2, byrow=TRUE));
+  layout(matrix(1:4, ncol=2L, byrow=TRUE));
   par(mar=c(3.5,3.5,4.5,0.5)+0.1, mgp=c(2.1,0.6,0));
 
   xlab <- expression(y[A]);
@@ -49,7 +49,7 @@ str(Yest)
   plot(NA, xlim=lim, ylim=lim, xlab=xlab, ylab=ylab);
   abline(a=0, b=1, lty=3);
   title(main="Probe pair signals");
-  stext(side=3, pos=1, sprintf("Number of probe pairs: %d*%d=%d", dim(Y)[3], dim(Y)[1], dim(Y)[3]*dim(Y)[1]))
+  stext(side=3, pos=1, sprintf("Number of probe pairs: %d*%d=%d", dim(Y)[3L], dim(Y)[1L], dim(Y)[3L]*dim(Y)[1L]))
   d <- apply(Y, MARGIN=3, FUN=points);
 
   xlab <- expression(C[A]);
@@ -66,18 +66,18 @@ str(Yest)
   plot(NA, xlim=lim, ylim=lim, xlab=xlab, ylab=ylab);
   abline(a=0, b=1, lty=3);
   title(main="AS probe affinity estimates");
-  stext(side=3, pos=1, sprintf("Number of affinities: 2*%d=%d", dim(Y)[1], nrow(W)));
-  col <- matrix(c("red", "blue"), nrow=nrow(W)/2, ncol=2, byrow=TRUE);
-  legend("topright", pch=par("pch"), col=col[1,], c("PMA", "PMB"), cex=0.8, bg="white");
+  stext(side=3, pos=1, sprintf("Number of affinities: 2*%d=%d", dim(Y)[1L], nrow(W)));
+  col <- matrix(c("red", "blue"), nrow=nrow(W)/2, ncol=2L, byrow=TRUE);
+  legend("topright", pch=par("pch"), col=col[1L,], c("PMA", "PMB"), cex=0.8, bg="white");
   points(W, col=col);
-  
+
   xlab <- expression(epsilon[A]);
   ylab <- expression(epsilon[B]);
   plot(NA, xlim=epsLim, ylim=epsLim, xlab=xlab, ylab=ylab);
   abline(a=0, b=1, lty=3);
   title(main="AS errors");
-  stext(side=3, pos=1, sprintf("Number of error pairs: %d*%d=%d", dim(E)[3], dim(E)[1], dim(E)[3]*dim(E)[1]));
-  d <- apply(E, MARGIN=3, FUN=points);
+  stext(side=3, pos=1, sprintf("Number of error pairs: %d*%d=%d", dim(E)[3L], dim(E)[1L], dim(E)[3L]*dim(E)[1L]));
+  d <- apply(E, MARGIN=3L, FUN=points);
 
   title(main=main, outer=TRUE, line=-1)
 }) # plot()

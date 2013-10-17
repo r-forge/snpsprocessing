@@ -43,7 +43,7 @@ extends \emph{\link[aroma.affymetrix]{ProbeLevelModel}}\cr
 }
 
 \usage{
-NmfPlm(..., maxIter=10, maxIterRlm=20, refs=NULL, flavor=c("v4", "v3", "v2", "v1"))
+NmfPlm(..., maxIter=10L, maxIterRlm=20L, refs=NULL, flavor=c("v4", "v3", "v2", "v1"))
 }
 
 \arguments{

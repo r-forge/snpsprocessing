@@ -1,4 +1,4 @@
-###########################################################################/** 
+###########################################################################/**
 # @RdocFunction fitSnpNmf
 #
 # @title "Non-negative matrix factorization (NMF) of a matrix containing SNP probe signals"
@@ -10,7 +10,7 @@
 # @synopsis
 #
 # \arguments{
-#  \item{V}{An KxI @matrix where I is the number of arrays and K is the 
+#  \item{V}{An KxI @matrix where I is the number of arrays and K is the
 #     number of probe where K should be even (K=2L).}
 #  \item{acc}{A positive @double specifying the converence threshold. For
 #     more details on convergence, see below.}
@@ -28,13 +28,13 @@
 #  \item{H}{A 2xI @matrix containing allele-specific copy number estimates.}
 #  \item{hasConverged}{@TRUE if the algorithm converged, otherwise @FALSE.
 #     If not applicable, it is @NA.}
-#  \item{nbrOfIterations}{The number of iteration ran before stopping. 
+#  \item{nbrOfIterations}{The number of iteration ran before stopping.
 #     If not applicable, it is @NA.}
 # }
 #
 # \details{
 #   The algorithm is considered to have converged when the maximum update
-#   of any allele-specific copy number of any array (\code{H}) is greater 
+#   of any allele-specific copy number of any array (\code{H}) is greater
 #   than \code{acc}.
 # }
 #
@@ -53,14 +53,14 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
   if (is.null(refs)) {
     refs <- seq(length=I);
   } else if (!is.vector(refs)) {
-    throw("Argument 'refs' is not a vector: ", class(refs)[1]);
+    throw("Argument 'refs' is not a vector: ", class(refs)[1L]);
   } else if (is.logical(refs)) {
     if (length(refs) != I) {
       throw("The number of elements in argument 'refs' does not match the number of column in argument 'V': ", length(refs), " != ", I);
     }
     refs <- which(refs);
   } else if (is.numeric(refs)) {
-    if (!all(1 <= refs & refs <= I)) {
+    if (!all(1L <= refs & refs <= I)) {
       throw("Some elements in argument 'refs' is out of range [1,", I, "].");
     }
     refs <- as.integer(refs);
@@ -82,12 +82,12 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
 
   W <- WHinit$W;  # Not really used
   H <- WHinit$H;
-  
+
   W <- robustWInit(V[,refs,drop=FALSE], H=H);
   H <- robustHInit(V, W=W);
 
   V <- removeOutliers(V, W=W, H=H);
-  
+
   # If there is only one allele, no more to do...
   # The algorithm (for one allele) is already a robust estimator
   if (status == 1L || status == 2L) {
@@ -97,10 +97,10 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
     W <- b*W;
     H <- H/b;
     hasConverged <- NA;
-    iter <- as.integer(NA);
+    iter <- NA_integer_;
   } else {
-    onesA <- matrix(1, nrow=1, ncol=I);
-    onesB <- matrix(1, nrow=K, ncol=1);
+    onesA <- matrix(1, nrow=1L, ncol=I);
+    onesB <- matrix(1, nrow=K, ncol=1L);
     ones2 <- matrix(1, nrow=K, ncol=I);
 
     iter <- 1L;
@@ -108,7 +108,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
     while (!hasConverged && iter < maxIter) {
       # Remember H from previous iteration to test for convergence
       Hprev <- H;
-  
+
       # Compute new W solving the system of equations
       H[H < eps] <- eps;
       W <- t(miqr.solve(t(H), t(V)));
@@ -117,7 +117,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
       # Compute the H
       H <- miqr.solve(W, V);
       H[H < eps] <- eps;
-  
+
       # Normalizing the W
       norms <- colSums(W);
       norms <- norms + eps2; # Add a small positive value
@@ -129,7 +129,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
       b <- median(totalCNs)/2; # Scale factor
       W <- b*W;
       H <- H/b;
-  
+
       # Converged?
       hasConverged <- (max(abs(Hprev - H)) < acc);
 
@@ -139,7 +139,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
 
     # Robust method for shrinking the average total copy number
     # to close to CN=2.
-    Dmat <- rlm(t(H[,refs,drop=FALSE]), matrix(data=2, nrow=ncol(H[,refs,drop=FALSE]), ncol=1), maxit=maxIterRlm);
+    Dmat <- rlm(t(H[,refs,drop=FALSE]), matrix(data=2, nrow=ncol(H[,refs,drop=FALSE]), ncol=1L), maxit=maxIterRlm);
     coefs <- Dmat$coefficients;
     H <- diag(coefs) %*% H;
     W <- W %*% diag(1/coefs);
@@ -150,8 +150,8 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
   } # if (status ...)
 
   # Sanity check (may be removed in the future /HB 2009-03-24)
-  stopifnot(nrow(W) == K && ncol(W) == 2);
-  stopifnot(nrow(H) == 2 && ncol(H) == I);
+  stopifnot(nrow(W) == K && ncol(W) == 2L);
+  stopifnot(nrow(H) == 2L && ncol(H) == I);
 
   list(W=W, H=H, hasConverged=hasConverged, nbrOfIterations=iter);
 } # fitSnpNmf()
@@ -169,7 +169,7 @@ fitSnpNmf <- function(V, acc=0.02, maxIter=10, maxIterRlm=20, refs=NULL) {
 # 2009-11-18 [HB]
 # o Removed internal save() in fitSnpNmf().
 # 2009-03-24 [HB]
-# o Renamed from Nmf() to fitSnpNmf().  The former name was to generic 
+# o Renamed from Nmf() to fitSnpNmf().  The former name was to generic
 #   while our algorithm is rather specific to SNP data.
 # o Added optional arguments and internal "constants".
 # o Added Rdoc comments.

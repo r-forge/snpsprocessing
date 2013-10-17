@@ -1,4 +1,4 @@
-###########################################################################/** 
+###########################################################################/**
 # @RdocFunction robustWInit
 #
 # @title "Robust initialization of the W (affinity) matrix"
@@ -6,11 +6,11 @@
 # \description{
 #  @get "title".
 # }
-# 
+#
 # @synopsis
 #
 # \arguments{
-#  \item{V}{An KxI @matrix where I is the number of arrays and K is the 
+#  \item{V}{An KxI @matrix where I is the number of arrays and K is the
 #     number of probes where K should be even (K=2L).}
 #  \item{H}{A 2xI @matrix of allele-specific copy-number estimates.}
 #  \item{maxIter}{The maximum number of iterations.}
@@ -27,7 +27,7 @@
 #
 # @keyword internal
 #*/###########################################################################
-robustWInit <- function(V, H, maxIter=50, ...) {
+robustWInit <- function(V, H, maxIter=50L, ...) {
   # Number of arrays
   I <- ncol(V);
   # Number of probes
@@ -36,28 +36,25 @@ robustWInit <- function(V, H, maxIter=50, ...) {
   L <- as.integer(K/2);
 
   # Sanity check (may be removed in the future /HB 2009-03-24)
-  stopifnot(nrow(H) == 2 && ncol(H) == I);
+  stopifnot(nrow(H) == 2L && ncol(H) == I);
 
   # A small positive value
   eps <- 1e-5;
 
   Ws <- matrix(0, nrow=K, ncol=2*maxIter);
-  W <- matrix(0, nrow=K, ncol=2);
+  W <- matrix(0, nrow=K, ncol=2L);
 
   # Create genotyping group of samples
-  #AA <- which(H[2,] < 0.5 & H[1,] > 0.5);
-  #AB <- which(H[1,] > 0.5 & H[2,] > 0.5);
-  #BB <- which(H[1,] < 0.5 & H[2,] > 0.5);
-  AA <- which(2*H[2,] <  H[1,]);
-  BB <- which(H[2,] > 2*H[1,]);
-  AB <- which(H[2,] < 2*H[1,] & 2*H[2,] >  H[1,]);
-  
+  AA <- which(2*H[2L,] <  H[1L,]);
+  BB <- which(H[2L,] > 2*H[1L,]);
+  AB <- which(H[2L,] < 2*H[1L,] & 2*H[2L,] >  H[1L,]);
+
   nAA <- length(AA);
   nAB <- length(AB);
   nBB <- length(BB);
-  
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Step 1: 
+  # Step 1:
   # In case most of the samples belong to only one group we twist some
   # of them so we "have" signal from both alleles.
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,15 +68,15 @@ robustWInit <- function(V, H, maxIter=50, ...) {
     if (nAB > percSamples) {
       V[rrA,idxs] <- min(V);
       V[rrB,idxs] <- V[rrB,idxs] * 2;
-      H[1,idxs] <- 0;
-      H[2,idxs] <- 2;
+      H[1L,idxs] <- 0;
+      H[2L,idxs] <- 2;
     } else {
       aux <- V[rrA,idxs];
       V[rrA,idxs] <- V[rrB,idxs];
       V[rrB,idxs] <- aux;
       aux <- H[1,idxs];
-      H[1,idxs] <- H[2,idxs];
-      H[2,idxs] <- aux;
+      H[1L,idxs] <- H[2L,idxs];
+      H[2L,idxs] <- aux;
     }
   }
 
@@ -87,54 +84,51 @@ robustWInit <- function(V, H, maxIter=50, ...) {
   # Step 2:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Assign arrays into genotype groups (AA, AB, BB).
-#  AA <- which(H[2,] < 0.5 & H[1,] > 0.5);
-#  AB <- which(H[1,] > 0.5 & H[2,] > 0.5);
-#  BB <- which(H[1,] < 0.5 & H[2,] > 0.5);
-  AA <- which(2*H[2,] <  H[1,]);
-  BB <- which(H[2,] > 2*H[1,]);
-  AB <- which(H[2,] < 2*H[1,] & 2*H[2,] >  H[1,]);
+  AA <- which(2*H[2L,] <  H[1L,]);
+  BB <- which(H[2L,] > 2*H[1L,]);
+  AB <- which(H[2L,] < 2*H[1L,] & 2*H[2L,] >  H[1L,]);
 
   nAA <- length(AA);
   nAB <- length(AB);
   nBB <- length(BB);
 
-  cont <- 1;
+  cont <- 1L;
   for (ii in 1:maxIter) {
     # select two random samples with different genotype
-    groups <- sample(1:3, size=2);
+    groups <- sample(1:3, size=2L);
     sampleAA <- 0L;
     sampleBB <- 0L;
     sampleAB <- 0L;
-    if(nBB == 0 || nAB == 0 || (nAA > 0 && (groups[1] == 1 || groups[2] == 1))) {
-      idx <- sample(nAA, size=1);
+    if(nBB == 0L || nAB == 0L || (nAA > 0L && (groups[1L] == 1L || groups[2L] == 1L))) {
+      idx <- sample(nAA, size=1L);
       sampleAA <- AA[idx];
     }
 
-    if(nAA == 0 || nAB == 0 || (nBB > 0 && (groups[1] == 2 || groups[2] == 2))) {
-      idx <- sample(nBB, size=1);
+    if(nAA == 0L || nAB == 0L || (nBB > 0L && (groups[1L] == 2L || groups[2L] == 2L))) {
+      idx <- sample(nBB, size=1L);
       sampleBB <- BB[idx];
     }
 
-    if(nAA == 0 || nBB == 0 || (nAB > 0 && (groups[1] == 3 || groups[2] == 3))) {
-      idx <- sample(nAB, size=1);
+    if(nAA == 0L || nBB == 0L || (nAB > 0L && (groups[1L] == 3L || groups[2L] == 3L))) {
+      idx <- sample(nAB, size=1L);
       sampleAB <- AB[idx];
     }
 
-    if (sampleAA*sampleBB > 0) {
+    if (sampleAA*sampleBB > 0L) {
       cc <- c(sampleAA, sampleBB);
-    } else if (sampleAB*sampleBB > 0) {
+    } else if (sampleAB*sampleBB > 0L) {
       cc <- c(sampleAB, sampleBB);
     } else {
       cc <- c(sampleAA, sampleAB);
     }
-    dd <- c(cont,cont+1);
+    dd <- c(cont, cont+1L);
     Ws[,dd] <- t(miqr.solve(t(H[,cc]),t(V[,cc])));
 
-    cont <- cont + 2;
+    cont <- cont + 2L;
   } # for (ii ...)
 
-  oddIdxs <- seq(from=1, to=2*maxIter, by=2);
-  evenIdxs <- seq(from=2, to=2*maxIter, by=2);
+  oddIdxs <- seq(from=1L, to=2L*maxIter, by=2L);
+  evenIdxs <- seq(from=2L, to=2L*maxIter, by=2L);
   mediansWA <- rowMedians(Ws[,oddIdxs,drop=FALSE]);
   mediansWB <- rowMedians(Ws[,evenIdxs,drop=FALSE]);
 
@@ -142,11 +136,11 @@ robustWInit <- function(V, H, maxIter=50, ...) {
   mediansWA[mediansWA < 0] <- eps;
   mediansWB[mediansWB < 0] <- eps;
 
-  W[,1] <- mediansWA;
-  W[,2] <- mediansWB;
+  W[,1L] <- mediansWA;
+  W[,2L] <- mediansWB;
 
   # Sanity check (may be removed in the future /HB 2009-03-24)
-  stopifnot(nrow(W) == K && ncol(W) == 2);
+  stopifnot(nrow(W) == K && ncol(W) == 2L);
 
   W;
 } # robustWInit()

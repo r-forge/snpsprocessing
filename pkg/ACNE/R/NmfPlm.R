@@ -37,15 +37,15 @@
 #
 # @author
 #*/###########################################################################
-setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, refs=NULL, flavor=c("v4", "v3", "v2", "v1")) {
+setConstructorS3("NmfPlm", function(..., maxIter=10L, maxIterRlm=20L, refs=NULL, flavor=c("v4", "v3", "v2", "v1")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Argument 'maxIter':
-  maxIter <- Arguments$getInteger(maxIter, range=c(1,999));
+  maxIter <- Arguments$getInteger(maxIter, range=c(1L,999L));
 
   # Argument 'maxIterRlm':
-  maxIterRlm <- Arguments$getInteger(maxIterRlm, range=c(1,999));
+  maxIterRlm <- Arguments$getInteger(maxIterRlm, range=c(1L,999L));
 
   # Argument 'flavor':
   flavor <- match.arg(flavor);
@@ -136,13 +136,13 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
   # Maximum number of iterations to fit.
   maxIter <- this$.maxIter;
   if (is.null(maxIter)) {
-    maxIter <- 10;
+    maxIter <- 10L;
   }
 
   # Maximum number of iterations to fit rlm.
   maxIterRlm <- this$.maxIterRlm;
   if (is.null(maxIterRlm)) {
-    maxIterRlm <- 20;
+    maxIterRlm <- 20L;
   }
 
   # Reference samples.
@@ -176,39 +176,39 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
     #save(SNPunit, file = "SNPunit")
     groupNames <- names(SNPunit);
 
-    if (length(SNPunit) > 1) {
-      SNPdata <- rbind(SNPunit[[1]]$intensities, SNPunit[[2]]$intensities);
+    if (length(SNPunit) > 1L) {
+      SNPdata <- rbind(SNPunit[[1L]]$intensities, SNPunit[[2L]]$intensities);
       SNPdata <- SNPdata + shift;
       indNonPos <- (SNPdata <= 0);
       SNPdata[indNonPos] <- 0.0001;
-      nbrGroups <- 2;
+      nbrGroups <- 2L;
     } else {
-      SNPdata <- SNPunit[[1]]$intensities;
-      nbrGroups <- 1;
+      SNPdata <- SNPunit[[1L]]$intensities;
+      nbrGroups <- 1L;
     }
 
-    if (nbrGroups == 2) {
+    if (nbrGroups == 2L) {
       NMFdata <- nmfFcn(SNPdata, maxIter=maxIter, maxIterRlm=maxIterRlm, refs=refs);
 
-      W <- NMFdata[[1]];
-      H <- NMFdata[[2]];
+      W <- NMFdata[[1L]];
+      H <- NMFdata[[2L]];
 
-      I <- dim(H)[2];
-      K <- dim(W)[1]/2;
+      I <- dim(H)[2L];
+      K <- dim(W)[1L]/2;
 
       # prepare returned data
       # allele A
-      theta1 <- H[1,];
+      theta1 <- H[1L,];
       sdTheta <- rep(1, times=I);
       thetaOutliers <- logical(I);
-      phi1 <- W[1:K,1];
-      sdPhi1 <- W[(K+1):(2*K),1];
+      phi1 <- W[1:K,1L];
+      sdPhi1 <- W[(K+1):(2*K),1L];
       phiOutliers <- logical(K);
 
       # allele B
-      theta2 <- H[2,];
-      phi2 <- W[1:K,2];
-      sdPhi2 <- W[(K+1):(2*K),2];
+      theta2 <- H[2L,];
+      phi2 <- W[1:K,2L];
+      sdPhi2 <- W[(K+1):(2*K),2L];
 
       # fitted unit
       fitUU <- list(
@@ -216,8 +216,8 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
         B = list(theta=theta2, sdTheta=sdTheta, thetaOutliers=thetaOutliers, phiA=phi2, phiB=sdPhi2, phiOutliers=phiOutliers)
       );
     } else {
-      I <- dim(SNPdata)[2];
-      K <- dim(SNPdata)[1];
+      I <- dim(SNPdata)[2L];
+      K <- dim(SNPdata)[1L];
       theta1 <-  rep(1, times=I);
       sdTheta <- rep(1, times=I);
       thetaOutliers <- logical(I);

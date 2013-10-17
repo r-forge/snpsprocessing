@@ -1,10 +1,10 @@
-###########################################################################/** 
+###########################################################################/**
 # @RdocFunction removeOutliers
 #
 # @title "Removes outliers in matrix containing SNP signals"
 #
 # \description{
-#   @get "title" by identifying outlier elements.  The values of the 
+#   @get "title" by identifying outlier elements.  The values of the
 #   elements that are outliers are substituted by corresponding values
 #   predicted values \code{Yest=W*H} from the current affinity (\code{W})
 #   and copy number (\code{H}) estimates.
@@ -21,7 +21,7 @@
 # }
 #
 # \value{
-#   Returns an IxK @matrix where outliers have been "pruned". 
+#   Returns an IxK @matrix where outliers have been "pruned".
 #   Outliers are substituted by the corresponding value of \code{Yest}.
 # }
 #
@@ -34,8 +34,8 @@ removeOutliers <- function(Y, W, H, tau=10, ...) {
   K <- nrow(Y);
 
   # Sanity check (may be removed in the future /HB 2009-03-24)
-  stopifnot(nrow(W) == K && ncol(W) == 2);
-  stopifnot(nrow(H) == 2 && ncol(H) == I);
+  stopifnot(nrow(W) == K && ncol(W) == 2L);
+  stopifnot(nrow(H) == 2L && ncol(H) == I);
 
   # Output matrix
   Yprime <- Y;
@@ -44,12 +44,12 @@ removeOutliers <- function(Y, W, H, tau=10, ...) {
   Yest <- W %*% H;
   E <- Y - Yest;
 
-  # Identify outliers  
+  # Identify outliers
   rowMad <- rowMads(E);
   outliers <- which(abs(E) > tau*rowMad);
 
-  # Replacing outliers  
-  if (length(outliers) > 0) {  
+  # Replacing outliers
+  if (length(outliers) > 0L) {
     Yprime[outliers] <- Yest[outliers];
   }
 

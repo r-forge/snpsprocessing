@@ -17,15 +17,21 @@
 # }
 #
 # \arguments{
-#  \item{csR, dataSet}{An @see "AffymetrixCelSet" (or the name of an @see "AffymetrixCelSet").}
-#  \item{fln}{If @TRUE, CRMAv2-style PCR fragment-length normalization is performed, otherwise not.}
-#  \item{...}{Additional arguments used to set up @see "AffymetrixCelSet" (when argument \code{dataSet} is specified).}
+#  \item{csR, dataSet}{An @see "AffymetrixCelSet" (or the name of an
+#   @see "AffymetrixCelSet").}
+#  \item{fln}{If @TRUE, CRMAv2-style PCR fragment-length normalization
+#   is performed, otherwise not.}
+#  \item{drop}{If @TRUE, the RMA summaries are returned, otherwise
+#   a named @list of all intermediate and final results.}
 #  \item{verbose}{See @see "Verbose".}
+#  \item{...}{Additional arguments used to set up @see "AffymetrixCelSet"
+#   (when argument \code{dataSet} is specified).}
 # }
 #
 # \value{
-#   Returns a named @list of @see "aroma.core::AromaUnitTotalCnBinarySet"
-#   and @see "aroma.core::AromaUnitFracBCnBinarySet" .
+#   Returns a named @list, iff \code{drop == FALSE}, otherwise
+#   a named @list of @see "aroma.core::AromaUnitTotalCnBinarySet"
+#   and @see "aroma.core::AromaUnitFracBCnBinarySet".
 # }
 #
 # \references{
@@ -34,7 +40,7 @@
 #
 # @author "HB"
 #*/###########################################################################
-setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, verbose=FALSE) {
+setMethodS3("doACNE", "AffymetrixCelSet", function(csR, fln=FALSE, drop=TRUE, verbose=FALSE, ...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -47,6 +53,9 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, verbose=
   # Argument 'fln':
   fln <- Arguments$getVerbose(fln);
 
+  # Argument 'drop':
+  drop <- Arguments$getLogical(drop);
+
   # Argument 'verbose':
   verbose <- Arguments$getVerbose(verbose);
 
@@ -56,12 +65,22 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, verbose=
   verbose && cat(verbose, "Data set");
   verbose && print(verbose, csR);
 
+  # List of objects to be returned
+  res <- list();
+  if (!drop) {
+    res <- c(res, list(csR=csR));
+  }
+
   verbose && enter(verbose, "ACNE/CRMAv2/Allelic crosstalk calibration");
   acc <- AllelicCrosstalkCalibration(csR, model="CRMAv2");
   verbose && print(verbose, acc);
   csC <- process(acc, verbose=verbose);
   verbose && print(verbose, csC);
   verbose && exit(verbose);
+
+  if (!drop) {
+    res <- c(res, list(acc=acc, csC=csC));
+  }
 
   # Clean up
   csR <- acc <- NULL;
@@ -72,6 +91,10 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, verbose=
   csN <- process(bpn, verbose=verbose);
   verbose && print(verbose, csN);
   verbose && exit(verbose);
+
+  if (!drop) {
+    res <- c(res, list(bpn=bpn, csN=csN));
+  }
 
   # Clean up
   csC <- bpn <- NULL;
@@ -94,6 +117,10 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, verbose=
   verbose && print(verbose, ces);
   verbose && exit(verbose);
 
+  if (!drop) {
+    res <- c(res, list(plm=plm));
+  }
+
   # Clean up
   plm <- NULL;
 
@@ -109,17 +136,30 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, ..., fln=FALSE, verbose=
 
     # Clean up
     fln <- ces <- NULL;
+
+    if (!drop) {
+      res <- c(res, list(fln=fln, cesN=cesN));
+    }
   } else {
     cesN <- ces;
   }
 
   verbose && enter(verbose, "ACNE/Export to technology-independent data files");
-  res <- exportTotalAndFracB(cesN, verbose=verbose);
-  verbose && print(verbose, res);
+  dsNList <- exportTotalAndFracB(cesN, verbose=verbose);
+  verbose && print(verbose, dsNList);
   verbose && exit(verbose);
 
   # Clean up
   cesN <- NULL;
+
+  if (!drop) {
+    res <- c(res, list(dsNList=dsNList));
+  }
+
+  # Return only the final results?
+  if (drop) {
+    res <- dsNList;
+  }
 
   verbose && exit(verbose);
 
