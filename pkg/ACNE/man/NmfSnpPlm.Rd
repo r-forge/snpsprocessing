@@ -81,10 +81,10 @@ as.character, fit, getAlias, getAsteriskTags, getDataSet, getFullName, getName, 
 getParameterSets, getParameters, getParametersAsString
 
  \bold{Methods inherited from Object}:\cr
-$, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save, asThis
+$, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, save, asThis
 
 
  }
 
- \author{Angel Rubio, Maria Ortiz, Henrik Bengtsson}
+ \author{Henrik Bengtsson}
 \keyword{classes}

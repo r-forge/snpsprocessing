@@ -2,36 +2,29 @@
 # @RdocPackage ACNE
 #
 # \description{
-#   @eval "getDescription(ACNE)" 
-#
-#   This package should be considered to be in an alpha phase.
-#   You should expect the API to be changing over time.
-# }
-#
-# \section{Requirements}{
-#   This package requires the \pkg{aroma.affymetrix} package.
+#   @eval "getDescription(ACNE)"
 # }
 #
 # \section{Installation and updates}{
-#   To install this package, see instructions at
-#   \url{http://r-forge.r-project.org/projects/snpsprocessing/}.
-# } 
+#   This package requires the \pkg{aroma.affymetrix} package.
+#   To install this package, do:
+#   \code{install.packages("ACNE")}
+# }
 #
 # \section{To get started}{
-#   See the @see "NmfPlm" class.
+#  \enumerate{
+#   \item For a one-command pipeline, see the @see "doACNE" method.
+#   \item For other usages, see the @see "NmfPlm" class.
+#  }
 # }
-# 
-# \author{
-#   Angel Rubio <arubio@ceit.es>,
-#   Maria Ortiz <mortiz@ceit.es>, 
-#   Henrik Bengtsson <henrikb@braju.com>
-# }
+#
+# @author "MO, HB, AR"
 #
 # \section{License}{
 #   @eval "getLicense(ACNE)"
 # }
-# 
+#
 # \references{
-#   TBA.
+#  [1] @include "../incl/OrtizM_etal_2010.Rd" \cr
 # }
 #*/#########################################################################

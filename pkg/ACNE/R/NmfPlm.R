@@ -8,7 +8,7 @@
 #
 #  This class represents the NMF model of [REF].
 # }
-# 
+#
 # @synopsis
 #
 # \arguments{
@@ -27,12 +27,16 @@
 # }
 #
 # \seealso{
-#   Internally, for each SNP the NMF model is fitted using the 
+#   Internally, for each SNP the NMF model is fitted using the
 #   @see "fitSnpNmf" function.
 # }
 #
+# \references{
+#  [1] @include "../incl/OrtizM_etal_2010.Rd" \cr
+# }
+#
 # @author
-#*/########################################################################### 
+#*/###########################################################################
 setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, refs=NULL, flavor=c("v4", "v3", "v2", "v1")) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
@@ -49,7 +53,7 @@ setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, refs=NULL, f
 
   extend(ProbeLevelModel(...), "NmfPlm",
     .maxIter = maxIter,
-    .maxIterRlm = maxIterRlm,    
+    .maxIterRlm = maxIterRlm,
     .refs = refs,
     .flavor = flavor
   )
@@ -59,7 +63,7 @@ setConstructorS3("NmfPlm", function(..., maxIter=10, maxIterRlm=20, refs=NULL, f
 
 setMethodS3("getAsteriskTags", "NmfPlm", function(this, collapse=NULL, ...) {
   # Returns 'PLM[,<shift>]'
-  
+
   tags <- NextMethod("getAsteriskTags", collapse=NULL);
   tags[1] <- "NMF";
 
@@ -69,7 +73,7 @@ setMethodS3("getAsteriskTags", "NmfPlm", function(this, collapse=NULL, ...) {
   }
 
   # Collapse
-  tags <- paste(tags, collapse=collapse); 
+  tags <- paste(tags, collapse=collapse);
 
   tags;
 })
@@ -105,14 +109,14 @@ setMethodS3("getProbeAffinityFile", "NmfPlm", function(this, ...) {
     outliers <- as.logical(1-sign(pixels));
 
     list(
-      phiA=intensities, 
-      phiB=stdvs, 
+      phiA=intensities,
+      phiB=stdvs,
       phiOutliers=outliers
     );
   })
   paf;
 }, private=TRUE)
-  
+
 
 setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -188,10 +192,10 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 
       W <- NMFdata[[1]];
       H <- NMFdata[[2]];
-       
+
       I <- dim(H)[2];
       K <- dim(W)[1]/2;
-  
+
       # prepare returned data
       # allele A
       theta1 <- H[1,];
@@ -200,12 +204,12 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
       phi1 <- W[1:K,1];
       sdPhi1 <- W[(K+1):(2*K),1];
       phiOutliers <- logical(K);
-      
+
       # allele B
       theta2 <- H[2,];
       phi2 <- W[1:K,2];
       sdPhi2 <- W[(K+1):(2*K),2];
-  
+
       # fitted unit
       fitUU <- list(
         A = list(theta=theta1, sdTheta=sdTheta, thetaOutliers=thetaOutliers, phiA=phi1, phiB=sdPhi1, phiOutliers=phiOutliers),
@@ -225,7 +229,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
       fitUU <- list(list(theta=theta1, sdTheta=sdTheta, thetaOutliers=thetaOutliers, phiA=phi1, phiB=sdPhi1, phiOutliers=phiOutliers));
     }
 
-    names(fitUU) <- groupNames; 
+    names(fitUU) <- groupNames;
     fitUU;
   } # getFitUnitFunction()
 
@@ -249,7 +253,7 @@ setMethodS3("getFitUnitFunction", "NmfPlm", function(this,...) {
 # 2009-03-24 [HB]
 # o Added Rdoc comments.
 # 2009-01-28 [HB]
-# o Made getFitUnitFunction() slightly faster. Cleaned up code. Added 
+# o Made getFitUnitFunction() slightly faster. Cleaned up code. Added
 #   support for 'flavor' to specify which NMF fitting function to use.
 # 2008-12-08 [HB]
 # o Tidied up code.

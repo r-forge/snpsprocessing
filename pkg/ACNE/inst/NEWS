@@ -1,6 +1,17 @@
 Package: ACNE
 =============
 
+Version: 0.7.0 [2013-10-17]
+o CLEANUP: Removed all explicit calls to gc() and replaced all
+  rm() with faster NULL assignments.
+o DOCUMENTATION: Added a help page for doACNE().
+o DOCUMENTATION: Added references to ACNE article.
+o ROBUSTNESS: Now importing only what needs to be imported and
+  formally declaring all S3 methods in NAMESPACE.
+o Bumped the package dependencies.
+o Package now requires R (>= 2.15.0) [and Bioc (>= 2.10.0)].
+
+
 Version: 0.6.2 [2013-09-16]
 o Bumped the package dependencies.
 
@@ -19,7 +30,7 @@ o Bumped the package dependencies.
 
 Version: 0.5.1 [2012-10-16]
 o ROBUSTNESS/BUG FIX: No longer passing '...' to NextMethod(), cf.
-  R-devel thread 'Do *not* pass '...' to NextMethod() - it'll do it 
+  R-devel thread 'Do *not* pass '...' to NextMethod() - it'll do it
   for you; missing documentation, a bug or just me?' on Oct 16, 2012.
 o Now package imports utils, R.methodsS3 and R.oo.
 
@@ -56,7 +67,7 @@ o CLEAN UP: All flavors of NMF algorithms but the default one
 
 Version: 0.3.0 [2010-05-17]
 o Added doACNE().  Added also redundancy tests for it.
-o CLEAN UP: Now a flavor tag is added to NmfPlm:s only 
+o CLEAN UP: Now a flavor tag is added to NmfPlm:s only
   if flavor != "v4" (default).
 
 

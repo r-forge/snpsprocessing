@@ -2,14 +2,44 @@
 # IMPORTS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 importFrom("R.methodsS3", "setMethodS3")
+importFrom("R.oo", "setConstructorS3")
+importFrom("R.oo", "extend")
+importFrom("R.oo", "uses")
 importFrom("R.methodsS3", "throw")
-import("R.oo")
-import("R.utils")
-import("matrixStats")
-##import("utils")
-import("MASS")
+
+## Importing Class:es
+importFrom("R.oo", "Package")
+importFrom("aroma.affymetrix", "AllelicCrosstalkCalibration")
+importFrom("aroma.affymetrix", "BasePositionNormalization")
+importFrom("aroma.affymetrix", "ProbeLevelModel")
+importFrom("aroma.affymetrix", "FragmentLengthNormalization")
+
+## Importing generics
+importFrom("aroma.affymetrix", "getFitUnitFunction")
+importFrom("aroma.affymetrix", "getProbeAffinityFile")
 importFrom("R.filesets", "getAsteriskTags")
-import("aroma.affymetrix")
+
+## Importing functions
+importFrom("aroma.affymetrix", "exportTotalAndFracB")
+importFrom("aroma.affymetrix", "fitCnProbes")
+importFrom("aroma.affymetrix", "getChipEffectSet")
+importFrom("aroma.affymetrix", "setDecodeFunction")
+importFrom("aroma.affymetrix", "setEncodeFunction")
+importFrom("aroma.affymetrix", "SnpPlm")
+importFrom("MASS", "ginv")
+importFrom("MASS", "rlm")
+importFrom("matrixStats", "colMedians")
+importFrom("matrixStats", "rowMads")
+importFrom("matrixStats", "rowMedians")
+importFrom("R.oo", "getDate")
+importFrom("R.oo", "getName") ## Multi-sources: R.oo, R.filesets
+importFrom("R.oo", "getPosition")
+importFrom("R.oo", "getVersion")
+importFrom("R.utils", "cat") ## Multi-sources: R.utils, base
+importFrom("R.utils", "enter")
+importFrom("R.utils", "exit")
+importFrom("R.utils", "less")
+importFrom("R.utils", "stext")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -23,12 +53,19 @@ exportPattern("^[^\\.]")
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # DECLARATIONS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# AffymetrixCelSet
 S3method("doACNE", "AffymetrixCelSet")
-S3method("doACNE", "character")
 
+# default
+S3method("doACNE", "default")
+
+# NmfPlm
 S3method("getAsteriskTags", "NmfPlm")
 S3method("getProbeAffinityFile", "NmfPlm")
 S3method("getFitUnitFunction", "NmfPlm")
+
+# NmfSnpPlm
 S3method("getAsteriskTags", "NmfSnpPlm")
 
+# SnpNmfFit
 S3method("plot", "SnpNmfFit")
