@@ -134,14 +134,18 @@ setMethodS3("doACNE", "AffymetrixCelSet", function(csR, fln=FALSE, drop=TRUE, ve
     verbose && print(verbose, cesN);
     verbose && exit(verbose);
 
-    # Clean up
-    fln <- ces <- NULL;
-
     if (!drop) {
       res <- c(res, list(fln=fln, cesN=cesN));
     }
+
+    # Clean up
+    fln <- ces <- NULL;
   } else {
     cesN <- ces;
+
+    if (!drop) {
+      res <- c(res, list(cesN=cesN));
+    }
   }
 
   verbose && enter(verbose, "ACNE/Export to technology-independent data files");
