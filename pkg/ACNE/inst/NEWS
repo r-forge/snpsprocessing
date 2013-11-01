@@ -1,6 +1,6 @@
 Package: ACNE
 =============
-
+ 
 Version: 0.7.0 [2013-10-17]
 o Added argument 'drop' to ACNE() to be more consistent with
   similar methods in aroma.affymetrix, e.g. doRMA() and doCRMAv2().
