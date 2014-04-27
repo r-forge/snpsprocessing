@@ -4,6 +4,8 @@ Package: ACNE
 Version: 0.7.1 [2014-04-27]
 o DOCUMENTATION: Rebuilt help pages which drop references to a
   few deprecated/private methods.
+o DOCUMENTATION: Clarified the example(fitSnpNmfArray).
+o ROBUSTNESS: Added package system tests.
 o Bumped package dependencies.
 
  

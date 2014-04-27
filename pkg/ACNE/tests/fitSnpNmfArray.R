@@ -1,3 +1,5 @@
+library("ACNE")
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # DATA: Lx2xI allele-specific signals for six different SNPs
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
