@@ -106,14 +106,14 @@ robustWInit <- function(V, H, maxIter=50L, ...) {
     sampleAB <- 0L;
 
     # Pick a random AA sample?
-    # FIXME: What if hasAA (nAA == 0)is FALSE?!? /HB 2014-04-27
+    # FIXME: What if hasAA (nAA == 0) is FALSE?!? /HB 2014-04-27
     if(!hasBB || !hasAB || (hasAA && (groups[1L] == 1L || groups[2L] == 1L))) {
       idx <- sample(nAA, size=1L);  # May return 0L? /HB 2014-04-27
       sampleAA <- AA[idx];          # ...which then becomes integer(0)
     }
 
     # Pick a random BB sample?
-    # FIXME: What if hasBB (nBB == 0)is FALSE?!? /HB 2014-04-27
+    # FIXME: What if hasBB (nBB == 0) is FALSE?!? /HB 2014-04-27
     if(!hasAA || !hasAB || (hasBB && (groups[1L] == 2L || groups[2L] == 2L))) {
       idx <- sample(nBB, size=1L);  # May return 0L? /HB 2014-04-27
       sampleBB <- BB[idx];          # ...which then becomes integer(0)
