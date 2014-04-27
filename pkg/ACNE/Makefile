@@ -11,12 +11,15 @@ MAKE=make
 MV=mv
 RM=rm -f
 MKDIR=mkdir -p
+RMDIR=$(RM) -r
 
 # PACKAGE MACROS
 PKG_VERSION := $(shell grep -i ^version DESCRIPTION | cut -d : -d \  -f 2)
 PKG_NAME    := $(shell grep -i ^package DESCRIPTION | cut -d : -d \  -f 2)
 PKG_DIR     := $(shell basename "$(CURDIR)")
 PKG_TARBALL := $(PKG_NAME)_$(PKG_VERSION).tar.gz
+PKG_ZIP     := $(PKG_NAME)_$(PKG_VERSION).zip
+PKG_TGZ     := $(PKG_NAME)_$(PKG_VERSION).tgz
 
 # FILE MACROS
 FILES_R := $(wildcard R/*.R)
@@ -42,6 +45,7 @@ R_HOME := $(shell echo "$(R_HOME)" | tr "\\\\" "/")
 ## R_USE_CRAN := $(shell $(R_SCRIPT) -e "cat(Sys.getenv('R_USE_CRAN', 'FALSE'))")
 R_NO_INIT := --no-init-file
 R_VERSION_STATUS := $(shell $(R_SCRIPT) -e "status <- tolower(R.version[['status']]); if (regexpr('unstable', status) != -1L) status <- 'devel'; cat(status)")
+R_VERSION_X_Y := $(shell $(R_SCRIPT) -e "cat(gsub('[.][0-9]+$$', '', getRversion()))")
 R_VERSION := $(shell $(R_SCRIPT) -e "cat(as.character(getRversion()))")
 R_VERSION_FULL := $(R_VERSION)$(R_VERSION_STATUS)
 R_LIBS_USER_X := $(shell $(R_SCRIPT) -e "cat(.libPaths()[1])")
@@ -51,8 +55,9 @@ R_OUTDIR := _R-$(R_VERSION_FULL)
 R_CHECK_OUTDIR := $(R_OUTDIR)/$(PKG_NAME).Rcheck
 _R_CHECK_CRAN_INCOMING_ = $(shell $(R_SCRIPT) -e "cat(Sys.getenv('_R_CHECK_CRAN_INCOMING_', 'FALSE'))")
 _R_CHECK_XREFS_REPOSITORIES_ = $(shell if $(_R_CHECK_CRAN_INCOMING_) = "TRUE"; then echo ""; else echo "invalidURL"; fi)
-R_CHECK_FULL = $(shell $(R_SCRIPT) -e "cat(Sys.getenv('R_CHECK_FULL', ''))")
+_R_CHECK_FULL_ = $(shell $(R_SCRIPT) -e "cat(Sys.getenv('_R_CHECK_FULL_', ''))")
 R_CHECK_OPTS = --as-cran --timings
+R_RD4PDF = $(shell $(R_SCRIPT) -e "if (getRversion() < 3) cat('times,hyper')")
 R_CRAN_OUTDIR := $(R_OUTDIR)/$(PKG_NAME)_$(PKG_VERSION).CRAN
 
 HAS_ASPELL := $(shell $(R_SCRIPT) -e "cat(Sys.getenv('HAS_ASPELL', !is.na(utils:::aspell_find_program('aspell'))))")
@@ -76,6 +81,7 @@ debug:
 ##	@echo R_USE_CRAN=\'$(R_USE_CRAN)\'
 	@echo R_NO_INIT=\'$(R_NO_INIT)\'
 	@echo R_SCRIPT=\'$(R_SCRIPT)\'
+	@echo R_VERSION_X_Y=\'$(R_VERSION_X_Y)\'
 	@echo R_VERSION=\'$(R_VERSION)\'
 	@echo R_VERSION_STATUS=\'$(R_VERSION_STATUS)\'
 	@echo R_VERSION_FULL=\'$(R_VERSION_FULL)\'
@@ -89,8 +95,9 @@ debug:
 	@echo R_CHECK_OUTDIR=\'$(R_CHECK_OUTDIR)\'
 	@echo _R_CHECK_CRAN_INCOMING_=\'$(_R_CHECK_CRAN_INCOMING_)\'
 	@echo _R_CHECK_XREFS_REPOSITORIES_=\'$(_R_CHECK_XREFS_REPOSITORIES_)\'
-	@echo R_CHECK_FULL=\'$(R_CHECK_FULL)\'
+	@echo _R_CHECK_FULL_=\'$(_R_CHECK_FULL_)\'
 	@echo R_CHECK_OPTS=\'$(R_CHECK_OPTS)\'
+	@echo R_RD4PDF=\'$(R_RD4PDF)\'
 	@echo
 	@echo R_CRAN_OUTDIR=\'$(R_CRAN_OUTDIR)\'
 
@@ -124,6 +131,9 @@ deps: DESCRIPTION
 setup:	update deps
 	$(R_SCRIPT) -e "source('http://aroma-project.org/hbLite.R'); hbLite('R.oo')"
 
+
+ns:
+	$(R_SCRIPT) -e "library('$(PKG_NAME)'); source('X:/devtools/NAMESPACE.R'); writeNamespaceSection('$(PKG_NAME)'); writeNamespaceImports('$(PKG_NAME)');"
 
 # Build source tarball
 ../$(R_OUTDIR)/$(PKG_TARBALL): $(PKG_FILES)
@@ -160,7 +170,8 @@ install_force:
 	export _R_CHECK_DOT_INTERNAL_=1;\
 	export _R_CHECK_USE_CODETOOLS_=1;\
 	export _R_CHECK_FORCE_SUGGESTS_=0;\
-	export _R_CHECK_FULL_=$(R_CHECK_FULL);\
+	export R_RD4PDF=$(R_RD4PDF);\
+	export _R_CHECK_FULL_=$(_R_CHECK_FULL_);\
 	$(R) --no-init-file CMD check $(R_CHECK_OPTS) $(PKG_TARBALL);\
 	echo done > $(PKG_NAME).Rcheck/.check.complete
 
@@ -173,9 +184,11 @@ check_force:
 
 
 # Install and build binaries
-binary: ../$(R_OUTDIR)/$(PKG_TARBALL)
+../$(R_OUTDIR)/$(PKG_ZIP): ../$(R_OUTDIR)/$(PKG_TARBALL)
 	$(CD) ../$(R_OUTDIR);\
 	$(R) --no-init-file CMD INSTALL --build --merge-multiarch $(PKG_TARBALL)
+
+binary: ../$(R_OUTDIR)/$(PKG_ZIP)
 
 
 # Check the line width of incl/*.(R|Rex) files [max 100 chars in R devel]
@@ -217,6 +230,7 @@ vignettes: ../$(R_OUTDIR)/vigns
 
 # Run package tests
 ../$(R_OUTDIR)/tests/%.R: $(FILES_TESTS)
+	$(RMDIR) ../$(R_OUTDIR)/tests
 	$(MKDIR) ../$(R_OUTDIR)/tests
 	$(CP) $? ../$(R_OUTDIR)/tests
 
@@ -224,6 +238,11 @@ test_files: ../$(R_OUTDIR)/tests/*.R
 
 test: ../$(R_OUTDIR)/tests/%.R
 	$(CD) ../$(R_OUTDIR)/tests;\
+	$(R_SCRIPT) -e "for (f in list.files(pattern='[.]R$$')) { source(f, echo=TRUE) }"
+
+test_full: ../$(R_OUTDIR)/tests/%.R
+	$(CD) ../$(R_OUTDIR)/tests;\
+	export _R_CHECK_FULL_=TRUE;\
 	$(R_SCRIPT) -e "for (f in list.files(pattern='[.]R$$')) { source(f, echo=TRUE) }"
 
 
@@ -242,9 +261,19 @@ cran_setup: ../$(R_CRAN_OUTDIR)/$(PKG_TARBALL)
 
 cran: cran_setup ../$(R_CRAN_OUTDIR)/$(PKG_NAME),EmailToCRAN.txt
 
-# Backward compatibilities
-submit: cran
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Local repositories
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+REPOS_PATH := T:/My\ Repositories/braju.com/R
+REPOS_SRC := $(REPOS_PATH)/src/contrib
 
+$(REPOS_SRC):
+	$(MKDIR) "$@"
+
+$(REPOS_SRC)/$(PKG_TARBALL): ../$(R_OUTDIR)/$(PKG_TARBALL) $(REPOS_SRC)
+	$(CP) ../$(R_OUTDIR)/$(PKG_TARBALL) $(REPOS_SRC)
+
+repos: $(REPOS_SRC)/$(PKG_TARBALL)
 
 Makefile: $(FILES_MAKEFILE)
 	$(R_SCRIPT) -e "d <- 'Makefile'; s <- '../../Makefile'; if (file_test('-nt', s, d) && (regexpr('Makefile for R packages', readLines(s, n=1L)) != -1L)) file.copy(s, d, overwrite=TRUE)"

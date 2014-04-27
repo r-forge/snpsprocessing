@@ -74,7 +74,7 @@ robustWInit <- function(V, H, maxIter=50L, ...) {
       aux <- V[rrA,idxs];
       V[rrA,idxs] <- V[rrB,idxs];
       V[rrB,idxs] <- aux;
-      aux <- H[1,idxs];
+      aux <- H[1L,idxs];
       H[1L,idxs] <- H[2L,idxs];
       H[2L,idxs] <- aux;
     }
@@ -84,7 +84,7 @@ robustWInit <- function(V, H, maxIter=50L, ...) {
   # Step 2:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Assign arrays into genotype groups (AA, AB, BB).
-  AA <- which(2*H[2L,] <  H[1L,]);
+  AA <- which(2*H[2L,] < H[1L,]);
   BB <- which(H[2L,] > 2*H[1L,]);
   AB <- which(H[2L,] < 2*H[1L,] & 2*H[2L,] >  H[1L,]);
 
@@ -92,28 +92,46 @@ robustWInit <- function(V, H, maxIter=50L, ...) {
   nAB <- length(AB);
   nBB <- length(BB);
 
+  hasAA <- (nAA > 0L);
+  hasAB <- (nAB > 0L);
+  hasBB <- (nBB > 0L);
+
   cont <- 1L;
   for (ii in 1:maxIter) {
-    # select two random samples with different genotype
-    groups <- sample(1:3, size=2L);
+    # Select two random samples with different genotypes
+    groups <- sample(1:3, size=2L, replace=FALSE);
+
     sampleAA <- 0L;
     sampleBB <- 0L;
     sampleAB <- 0L;
-    if(nBB == 0L || nAB == 0L || (nAA > 0L && (groups[1L] == 1L || groups[2L] == 1L))) {
-      idx <- sample(nAA, size=1L);
-      sampleAA <- AA[idx];
+
+    # Pick a random AA sample?
+    # FIXME: What if hasAA (nAA == 0)is FALSE?!? /HB 2014-04-27
+    if(!hasBB || !hasAB || (hasAA && (groups[1L] == 1L || groups[2L] == 1L))) {
+      idx <- sample(nAA, size=1L);  # May return 0L? /HB 2014-04-27
+      sampleAA <- AA[idx];          # ...which then becomes integer(0)
     }
 
-    if(nAA == 0L || nAB == 0L || (nBB > 0L && (groups[1L] == 2L || groups[2L] == 2L))) {
-      idx <- sample(nBB, size=1L);
-      sampleBB <- BB[idx];
+    # Pick a random BB sample?
+    # FIXME: What if hasBB (nBB == 0)is FALSE?!? /HB 2014-04-27
+    if(!hasAA || !hasAB || (hasBB && (groups[1L] == 2L || groups[2L] == 2L))) {
+      idx <- sample(nBB, size=1L);  # May return 0L? /HB 2014-04-27
+      sampleBB <- BB[idx];          # ...which then becomes integer(0)
     }
 
-    if(nAA == 0L || nBB == 0L || (nAB > 0L && (groups[1L] == 3L || groups[2L] == 3L))) {
-      idx <- sample(nAB, size=1L);
-      sampleAB <- AB[idx];
+    # Pick a random AB sample?
+    # FIXME: What if hasAB (nAB == 0) is FALSE?!? /HB 2014-04-27
+    if(!hasAA || !hasBB || (hasAB && (groups[1L] == 3L || groups[2L] == 3L))) {
+      idx <- sample(nAB, size=1L);  # May return 0L? /HB 2014-04-27
+      sampleAB <- AB[idx];          # ...which then becomes integer(0)
     }
 
+    # ...and here we get integer(0)*something => integer(0).
+    # Comparing (integer(0) > 0L) gives logical(0), which in turn
+    # gives an error in the if statements, e.g. if (logical(0)) {}
+    # => Error in if (logical(0)) { : argument is of length zero.
+    # FIXME: So, the above selection of two random samples is not
+    # fully correct/safe.  /HB 2014-04-27
     if (sampleAA*sampleBB > 0L) {
       cc <- c(sampleAA, sampleBB);
     } else if (sampleAB*sampleBB > 0L) {
@@ -148,6 +166,15 @@ robustWInit <- function(V, H, maxIter=50L, ...) {
 
 ############################################################################
 # HISTORY:
+# 2014-04-27 [HB]
+# o Added comments to highlight potential problems with how the two random
+#   samples are choosen in the iteration of the 2nd step.  See also
+#   issue report in thread 'CRMA v2 error with Mouse Diversity' on
+#   2014-03-25 to the aroma.affymetrix mailing list.  It reports on 'Error
+#   in if (sampleAA * sampleBB > 0L) { : argument is of length zero' with
+#   "Calls: fit ... fit.ProbeLevelModel -> <Anonymous> -> FUN -> nmfFcn ->
+#   robustWInit".
+# o CLEANUP: Restructured the iteration of the 2nd step.
 # 2009-02-24 [HB]
 # o Added Rdoc comments.
 # o Cleanig up and standarizing code.
